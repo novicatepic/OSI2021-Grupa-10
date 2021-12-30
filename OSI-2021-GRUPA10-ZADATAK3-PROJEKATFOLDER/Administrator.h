@@ -6,6 +6,8 @@ class Administrator :virtual public Radnik {
 private:
 
 public:
-	bool dodajRadnika(Radnik r);
+	Administrator(std::string korisnickoIme, std::string lozinka);
+	bool dodajRadnika();
 	bool suspendujRadnika(Radnik r);
+	bool obrisiRadnika(Radnik r);
 };
