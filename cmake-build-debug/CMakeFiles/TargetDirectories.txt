@@ -1,0 +1,3 @@
+/home/sinisa/CLionProjects/OSI2021-Grupa-10/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/sinisa/CLionProjects/OSI2021-Grupa-10/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/sinisa/CLionProjects/OSI2021-Grupa-10/cmake-build-debug/CMakeFiles/OSI2021_Grupa_10.dir
