@@ -36,3 +36,4 @@ bool Administrator::dodajRadnika(){
 
 bool Administrator::suspendujRadnika(Radnik r) {
 	return true;
+}

@@ -1,4 +1,4 @@
-#pragram once
+#pragma once
 #include <exception>
 #include <iostream>
 #include "Radnik.h"
@@ -10,11 +10,9 @@ class Kontrolor :virtual public Radnik
 {
 private:
 public:
-    Kontrolor(std::string name, std::string pass) { Kontrolor(username, pass); }
+    Kontrolor(std::string name, std::string pass) : Radnik(name, pass, "Kontrolor") {}
     void kreiraj_let();
     void upisi_raspored_letova();
     void promjena_statusa_leta();
-    void
 
 };
-#pragma once
