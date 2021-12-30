@@ -8,6 +8,7 @@ Administrator::Administrator(std::string korisnickoIme, std::string lozinka)
 }
 
 
+
 bool Administrator::dodajRadnika(){
 	auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
 	if (pisiUFajl) {
@@ -35,8 +36,3 @@ bool Administrator::dodajRadnika(){
 
 bool Administrator::suspendujRadnika(Radnik r) {
 	return true;
-}
-
-bool Administrator::obrisiRadnika(Radnik r) {
-	return true;
-}

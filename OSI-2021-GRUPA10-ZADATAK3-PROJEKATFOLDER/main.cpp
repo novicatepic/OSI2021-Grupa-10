@@ -1,4 +1,6 @@
 #include "Radnik.h"
+#include "Sef.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -73,6 +75,19 @@ int main() {
 
 		pisiUFajl.close();
 	}*/
+
+
+
+	// NAPISAO DARIJO ZA TEST METODE
+	
+	Sef s1("ABC", "123");
+	s1.pregled_zavrsenih_letova();
+
+	s1.pregled_rezervacija();
+	char c;
+	std::cin >> c;
+	
+	//
 
 	return 0;
 }
