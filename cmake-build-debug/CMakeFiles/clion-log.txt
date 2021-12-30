@@ -1,4 +1,0 @@
-/opt/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/opt/clion/bin/ninja/linux/ninja -DCMAKE_C_COMPILER=/bin/gcc -DCMAKE_CXX_COMPILER=/bin/g++ -G Ninja /home/sinisa/CLionProjects/OSI2021-Grupa-10
--- Configuring done
--- Generating done
--- Build files have been written to: /home/sinisa/CLionProjects/OSI2021-Grupa-10/cmake-build-debug
