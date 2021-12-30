@@ -2,6 +2,7 @@
 #include "Sef.h"
 #include "Administrator.h"
 #include "Kontrolor.h"
+#include "Operater.h"
 #include <iostream>
 #include <string>
 #include <fstream>

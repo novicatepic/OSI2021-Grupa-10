@@ -13,7 +13,7 @@
 
 
 
-class Operater:virtual public Radnik{
+class Operater :virtual public Radnik {
 private:
 
 public:
