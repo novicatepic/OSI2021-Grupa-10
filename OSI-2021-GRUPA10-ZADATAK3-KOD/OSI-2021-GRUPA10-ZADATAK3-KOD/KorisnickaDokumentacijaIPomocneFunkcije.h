@@ -15,7 +15,7 @@ void korisnickaDokumentacijaGreskePriPrijavljivanju() {
 }
 
 void korisnickaDokumentacijaPrijePrijavljivanja() {
-	std::cout << "Unesite --help ili -h za pomoc prije prijavljivanja, bilo koji drugi znak za izlaz iz opcije" << std::endl;
+	std::cout << "Unesite --help ili -h za pomoc prije prijavljivanja, bilo koji drugi znak za izlaz iz opcije." << std::endl;
 	//std::cout << 
 }
 
@@ -77,4 +77,40 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 		}
 
 	} while (korisnickoIme != "--exit");
+}
+
+void sefPomocnaFunkcija1() {
+	std::cout << "Unesite --viewreports za pregled izvjestaja na dnevnom nivou." << std::endl;
+	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
+}
+
+void sefPomocnaFunkcija2() {
+	std::cout << "Unesite --daily za pregled izvjestaja na dnevnom nivou." << std::endl;
+	std::cout << "Unesite --weekly za pregled izvjestaja na sedmicnom nivou." << std::endl;
+	std::cout << "Unesite --monthly za pregled izvjestaja na mjesecnom nivou." << std::endl;	
+}
+
+void kontrolorPomocnaFunkcija() {
+	std::cout << "Unesite --create za kreiranje novog leta." << std::endl;
+	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
+	std::cout << "Unesite --view za pregled informacija o svakom letu." << std::endl;
+	std::cout << "Unesite --change za mijenjanje statusa leta." << std::endl;
+}
+
+void operaterPomocnaFunkcija() {
+	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
+	std::cout << "Unesite --view za pregled odobrenih i otkazanih rezervacija letova." << std::endl;
+	std::cout << "Unesite --viewspecific za prikaz odredjene rezervacije letova." << std::endl;
+}
+
+void operaterPomocnaFunkcija2() {
+	std::cout << "Unesite --permit za odobravanje leta." << std::endl;
+	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
+}
+
+void administratorPomocnaFunkcija() {
+	std::cout << "Unesite --list za pregled liste radnika." << std::endl;
+	std::cout << "Unesite --delete za brisanje naloga radnika." << std::endl;
+	std::cout << "Unesite --suspend za suspendovanje naloga radnika." << std::endl;
+	std::cout << "Unesite --create za kreiranje naloga radnika." << std::endl;
 }
