@@ -3,16 +3,15 @@
 
 #include <exception>
 #include <iostream>
-#include <fstream>
-#include <filesystem>
-#include <string>
-#include <iomanip>
+#include <fstream>		
+#include <string>		//getline()
 
 #include "Radnik.h"
 
 
 
-#define FILEPATH "/LETOVI/ZAVRSENI_LETOVI"
+#define ZAVRSENI_LETOVI_FILEPATH  "./LETOVI/ZAVRSENI_LETOVI.txt"
+#define REZERVACIJE_FILEPATH	  "./LETOVI/REZERVACIJE.txt"
 
 
 class Sef : virtual public Radnik
