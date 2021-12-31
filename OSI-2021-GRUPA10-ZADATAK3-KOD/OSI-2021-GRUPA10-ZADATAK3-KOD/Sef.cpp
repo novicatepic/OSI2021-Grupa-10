@@ -12,7 +12,7 @@ void Sef::pregled_zavrsenih_letova()
 	try {
 
 		std::fstream file;
-		file.open("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::in);
+		file.open(ZAVRSENI_LETOVI_FILEPATH, std::ios::in);
 		std::string str;
 
 		if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
@@ -28,7 +28,7 @@ void Sef::pregled_zavrsenih_letova()
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << e.what();
+		std::cout << e.what() << std::endl;
 	}
 }
 
@@ -39,7 +39,7 @@ void Sef::pregled_rezervacija()
 	try {
 
 		std::fstream file;
-		file.open("./LETOVI/REZERVACIJE.txt", std::ios::in);
+		file.open(REZERVACIJE_FILEPATH, std::ios::in);
 		std::string str;
 
 		if (!file) throw std::exception("Ne mogu otvoriti fajl 'REZERVACIJE' !");
@@ -55,6 +55,6 @@ void Sef::pregled_rezervacija()
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << e.what();
+		std::cout << e.what() << std::endl;
 	}
 }
