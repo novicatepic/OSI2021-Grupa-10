@@ -9,7 +9,7 @@ Operater::Operater(std::string username, std::string password)
 {
     this->korisnickoIme = username;
     this->lozinka = password;
-    this->radnoMjesto = "operater";
+    this->radnoMjesto = "Operater";
 
 }
 

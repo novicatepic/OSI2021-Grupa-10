@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Administrator.h" />
     <ClInclude Include="Kontrolor.h" />
+    <ClInclude Include="KorisnickaDokumentacijaIPomocneFunkcije.h" />
     <ClInclude Include="Operater.h" />
     <ClInclude Include="Radnik.h" />
     <ClInclude Include="Sef.h" />

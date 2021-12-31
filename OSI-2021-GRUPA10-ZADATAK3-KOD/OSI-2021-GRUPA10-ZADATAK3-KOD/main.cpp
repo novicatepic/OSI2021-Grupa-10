@@ -3,37 +3,19 @@
 #include "Administrator.h"
 #include "Kontrolor.h"
 #include "Operater.h"
+#include "KorisnickaDokumentacijaIPomocneFunkcije.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 
-Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozinka) {
-	auto citaj = std::ifstream("radnici.dat", std::ios::binary);
-	//Radnik r;
-	if (citaj) {
-		while (citaj.good()) {
-			//Radnik r ne radi, program kresa
-			Radnik* r = new Radnik;
-			citaj.read((char*)r, sizeof(Radnik));
-			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
-				citaj.close();
-				return *r;
-			}
-		}
-	}
-	Radnik r;
-	citaj.close();
-	return r;
-}
-
 int main() {
 	//LOGIKA KOJOM CEMO RADITI KASNIJE
-	/*auto citajFajl = std::ifstream("radnici.dat", std::ios::binary);
+	auto citajFajl = std::ifstream("radnici.dat", std::ios::binary);
 	if (citajFajl) {
-
+		pomocnaFunkcijaPriPrijavljivanju();
 	}
 	else {
-		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary);
+		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
 		std::string korisnickoIme, lozinka;
 		std::cout << "Prvo ocitavanje fajla : privremeni admin napravljen!" << std::endl;
 		std::cout << "Unesite korisnicko ime i lozinku za prvog admina u sistemu: " << std::endl;
@@ -41,15 +23,22 @@ int main() {
 		std::cin >> korisnickoIme;
 		std::cout << "Unesite lozinku" << std::endl;
 		std::cin >> lozinka;
-		//KREIRANJE ADMINISTRATORA SA DATIM KORISNICKIM IMENOM I LOZINKOM POTREBAN KONSTRUKTOR
-		//UPIS ADMINISTRATORA U FAJL
-
+		Radnik r(korisnickoIme, lozinka, "Administrator");
+		pisiUFajl.write((char*)&r, sizeof(Radnik));
 		pisiUFajl.close();
-	}*/
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+		//Administrator a(korisnickoIme, lozinka);
+		std::string unosOpcije;
+		pomocnaFunkcijaPriPrijavljivanju();
+	}
 
 
 	//TEST KAKO BI TO TREBALO IZGLEDATI
-	auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary);
+	/*auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary);
 	if (pisiUFajl) {
 		std::string korisnickoIme = "Novica", lozinka = "12345";
 		std::cout << "Unesite korisnicko ime" << std::endl;
@@ -64,7 +53,8 @@ int main() {
 		pisiUFajl.write((char*)&r2, sizeof(Radnik));
 		pisiUFajl.write((char*)&r3, sizeof(Radnik));
 		pisiUFajl.close();
-		Radnik r = prijaviNaSistem(korisnickoIme, lozinka);
+		Radnik r;
+		r = prijaviNaSistem(korisnickoIme, lozinka);
 		if (r.getIme() != "")
 			std::cout << r << std::endl;
 		if (r.getSuspendovan() == true) {
@@ -74,9 +64,8 @@ int main() {
 			//NIJE SUSPENDOVAN, DOZVOLJENE FUNKCIONALNOSTI
 		}
 
-
 		pisiUFajl.close();
-	}
+	}*/
 
 	return 0;
 }

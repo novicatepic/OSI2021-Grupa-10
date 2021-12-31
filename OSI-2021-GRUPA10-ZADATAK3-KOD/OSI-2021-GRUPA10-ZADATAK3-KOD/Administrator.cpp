@@ -2,10 +2,7 @@
 #include <fstream>
 #include <string>
 
-Administrator::Administrator(std::string korisnickoIme, std::string lozinka)
-{
-	Radnik(korisnickoIme, lozinka, "Administrator");
-}
+Administrator::Administrator(std::string korisnickoIme, std::string lozinka) : Radnik(korisnickoIme, lozinka, "Administrator") {}
 
 
 
