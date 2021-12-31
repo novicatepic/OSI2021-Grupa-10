@@ -44,6 +44,10 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Datum& d) {
-		return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.' << std::endl;
+		if (d.getDan() != 0 && d.getMjesec() != 0 && d.getGodina() != 0) {
+			return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.' << std::endl;
+		}
+		else
+			return os;
 	}
 };

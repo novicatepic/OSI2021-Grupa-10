@@ -4,6 +4,7 @@
 #include "Kontrolor.h"
 #include "Operater.h"
 #include "KorisnickaDokumentacijaIPomocneFunkcije.h"
+#include "PomocZaSefa.h"
 #include "Datum.h"
 #include <iostream>
 #include <string>
@@ -94,6 +95,10 @@ int main() {
 	std::cout << d.getDan() << std::endl;
 
 	ispisFajl.close();*/
+
+	/*Datum d(27, 12, 2021);
+	Datum nadji = vratiDatum(d);
+	std::cout << nadji;*/
 
 	return 0;
 }

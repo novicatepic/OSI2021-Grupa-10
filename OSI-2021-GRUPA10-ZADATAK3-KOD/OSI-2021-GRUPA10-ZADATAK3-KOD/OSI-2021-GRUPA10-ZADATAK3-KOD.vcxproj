@@ -153,6 +153,7 @@
     <ClInclude Include="Kontrolor.h" />
     <ClInclude Include="KorisnickaDokumentacijaIPomocneFunkcije.h" />
     <ClInclude Include="Operater.h" />
+    <ClInclude Include="PomocZaSefa.h" />
     <ClInclude Include="Radnik.h" />
     <ClInclude Include="Sef.h" />
   </ItemGroup>
