@@ -53,5 +53,8 @@
     <ClInclude Include="KorisnickaDokumentacijaIPomocneFunkcije.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Datum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

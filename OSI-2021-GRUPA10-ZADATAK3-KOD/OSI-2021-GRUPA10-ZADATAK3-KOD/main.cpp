@@ -4,6 +4,7 @@
 #include "Kontrolor.h"
 #include "Operater.h"
 #include "KorisnickaDokumentacijaIPomocneFunkcije.h"
+#include "Datum.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -66,6 +67,33 @@ int main() {
 
 		pisiUFajl.close();
 	}*/
+
+	/*Datum d(5, 4, 2021);
+	Datum d2(1, 1, 2022);
+	char upomoc = ',';
+	std::string temp3 = "JopeZoran";
+	std::string temp2 = "Zoran";
+
+	auto probaFajl = std::ofstream("temp.txt");
+	probaFajl << temp3;
+	probaFajl << upomoc;
+	probaFajl << d;
+	probaFajl << upomoc;
+	probaFajl << temp2;
+	probaFajl.close();
+	auto ispisFajl = std::ifstream("temp.txt");
+	Datum tempDatum;
+	std::getline(ispisFajl, temp3, upomoc);
+	ispisFajl >> d;
+	ispisFajl.ignore();
+	std::getline(ispisFajl, temp2);
+	ispisFajl.ignore();
+	std::cout << temp3 << std::endl;
+	std::cout << d;
+	std::cout << temp2 << std::endl;
+	std::cout << d.getDan() << std::endl;
+
+	ispisFajl.close();*/
 
 	return 0;
 }
