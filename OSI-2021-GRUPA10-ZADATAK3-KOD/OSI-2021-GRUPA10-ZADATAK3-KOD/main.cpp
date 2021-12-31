@@ -12,13 +12,13 @@ Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozink
 	//Radnik r;
 	if (citaj) {
 		while (citaj.good()) {
+			//Radnik r ne radi, program kresa
 			Radnik* r = new Radnik;
 			citaj.read((char*)r, sizeof(Radnik));
 			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
 				citaj.close();
 				return *r;
 			}
-			//delete r;
 		}
 	}
 	Radnik r;

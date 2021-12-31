@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e56d9cc1-0f85-4de3-be7f-81a9a5b96d31}</ProjectGuid>
-    <RootNamespace>TestProba</RootNamespace>
+    <ProjectGuid>{fe20cd14-d975-497e-a116-04b6d785c281}</ProjectGuid>
+    <RootNamespace>OSI2021GRUPA10ZADATAK3KOD</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -88,7 +88,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,19 +140,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Administrator.h" />
-    <ClInclude Include="Kontrolor.h" />
-    <ClInclude Include="Operater.h" />
-    <ClInclude Include="Radnik.h" />
-    <ClInclude Include="Sef.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="Kontrolor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operater.cpp" />
     <ClCompile Include="Radnik.cpp" />
     <ClCompile Include="Sef.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Administrator.h" />
+    <ClInclude Include="Kontrolor.h" />
+    <ClInclude Include="Operater.h" />
+    <ClInclude Include="Radnik.h" />
+    <ClInclude Include="Sef.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

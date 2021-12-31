@@ -10,4 +10,4 @@ public:
 	bool dodajRadnika();
 	bool suspendujRadnika(Radnik r);
 	bool obrisiRadnika(Radnik r);
-};
+}; 
