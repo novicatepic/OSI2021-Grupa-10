@@ -34,7 +34,7 @@ int main() {
 		std::cout << std::endl;
 		std::cout << std::endl;
 		//Administrator a(korisnickoIme, lozinka);
-		std::string unosOpcije;
+		//std::string unosOpcije;
 		pomocnaFunkcijaPriPrijavljivanju();
 	}
 
@@ -96,9 +96,9 @@ int main() {
 
 	ispisFajl.close();*/
 
-	/*Datum d(27, 12, 2021);
-	Datum nadji = vratiDatum(d);
-	std::cout << nadji;*/
+	//Datum d(27, 12, 2021);
+	//Datum nadji = vratiDatum(d);
+	//std::cout << nadji;
 
 	return 0;
 }

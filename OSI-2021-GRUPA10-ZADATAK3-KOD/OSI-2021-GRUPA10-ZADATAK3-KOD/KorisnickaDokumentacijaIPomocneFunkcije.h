@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "Radnik.h"
 #include "Administrator.h"
@@ -12,11 +13,109 @@ void korisnickaDokumentacijaGreskePriPrijavljivanju() {
 	std::cout << "-Neispravan unos korisnickog imena!" << std::endl;
 	std::cout << "-Neispravan unos lozinke!" << std::endl;
 	std::cout << "-Slucajno pritisnut taster enter!" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
 
 void korisnickaDokumentacijaPrijePrijavljivanja() {
 	std::cout << "Unesite --help ili -h za pomoc prije prijavljivanja, bilo koji drugi znak za izlaz iz opcije." << std::endl;
-	//std::cout << 
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void pomocZaBiloKojuKlasuRadnika() {
+	std::cout << "Neispravna opcija, ukoliko zelite pogledati dokumentaciju unesite --doc ili -d, bilo koji drugi znak za ponovan pokusaj opcije" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void porukaZaOdjavljivanje() {
+	std::cout << "Unesite -logout da biste se odjavili sa sistema" << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void sefPomocnaFunkcija1() {
+	std::cout << "Unesite --viewreports za pregled izvjestaja na dnevnom nivou." << std::endl;
+	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
+	porukaZaOdjavljivanje();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void sefPomocnaFunkcija2() {
+	std::cout << "Unesite --daily za pregled izvjestaja na dnevnom nivou." << std::endl;
+	std::cout << "Unesite --weekly za pregled izvjestaja na sedmicnom nivou." << std::endl;
+	std::cout << "Unesite --monthly za pregled izvjestaja na mjesecnom nivou." << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void kontrolorPomocnaFunkcija() {
+	std::cout << "Unesite --create za kreiranje novog leta." << std::endl;
+	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
+	std::cout << "Unesite --view za pregled informacija o svakom letu." << std::endl;
+	std::cout << "Unesite --change za mijenjanje statusa leta." << std::endl;
+	porukaZaOdjavljivanje();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void operaterPomocnaFunkcija() {
+	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
+	std::cout << "Unesite --view za pregled odobrenih i otkazanih rezervacija letova." << std::endl;
+	std::cout << "Unesite --viewspecific za prikaz odredjene rezervacije letova." << std::endl;
+	porukaZaOdjavljivanje();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void operaterPomocnaFunkcija2() {
+	std::cout << "Unesite --permit za odobravanje leta." << std::endl;
+	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
+	std::cout << "Unesite bilo koji drugi znak za izlaz iz opcije." << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void administratorPomocnaFunkcija() {
+	std::cout << "Unesite --list za pregled liste radnika." << std::endl;
+	std::cout << "Unesite --delete za brisanje naloga radnika." << std::endl;
+	std::cout << "Unesite --suspend za suspendovanje naloga radnika." << std::endl;
+	std::cout << "Unesite --create za kreiranje naloga radnika." << std::endl;
+	porukaZaOdjavljivanje();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
 
 Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozinka) {
@@ -39,7 +138,19 @@ Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozink
 	return r;
 }
 
+void prikaziPodatkeORadniku(const Radnik& r) {
+	std::cout << std::endl;
+	std::cout << "Prijavljeni ste kao: " << std::endl;
+	std::cout << r;
+	std::cout << std::endl;
+}
+
 void pomocnaFunkcijaPriPrijavljivanju() {
+	//TESTIRANJE
+	//auto upis = std::ofstream("radnici.dat", std::ios::binary);
+	//Radnik sef("Marko", "12", "Sef");
+	//upis.write((char*)&sef, sizeof(Radnik));
+	//upis.close();
 	std::string korisnickoIme;
 	std::string lozinka;
 	do {
@@ -52,18 +163,156 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 			std::cin >> lozinka;
 			Radnik r = prijaviNaSistem(korisnickoIme, lozinka);
 			if (r.getIme() != "") {
+				std::string opcija;
 				if (r.getradnoMjesto() == "Administrator") {
 					Administrator a(r.getIme(), r.getLozinka());
+					prikaziPodatkeORadniku(a);
 					//FUNKCIONALNOSTI ADMINISTRATORA
+					do {
+						//administratorPomocnaFunkcija();
+						std::cout << "Unesite opciju za rad: " << std::endl;
+						std::cin >> opcija;
+						if (opcija == "--list") {
+
+						}
+						else if (opcija == "--delete") {
+
+						}
+						else if (opcija == "--suspend") {
+
+						}
+						else if (opcija == "--create") {
+
+						}
+						else if (opcija == "-logout") {
+							//OVDJE SE NE RADI NISTA, CISTO DA SE NE UDJE U ELSE
+						}
+						else {
+							pomocZaBiloKojuKlasuRadnika();
+							std::string pomoc;
+							std::cin >> pomoc;
+							if (pomoc == "--doc" || pomoc == "-d") {
+								administratorPomocnaFunkcija();
+							}
+						}
+					} while (opcija != "-logout");
 				}
 				else if (r.getradnoMjesto() == "Sef") {
-					//FUNKCIONALNOSTI SEFA
+					Sef s(r.getIme(), r.getLozinka());
+					prikaziPodatkeORadniku(s);
+					do {
+						//sefPomocnaFunkcija1();
+						std::cout << "Unesite opciju za rad: " << std::endl;
+						std::cin >> opcija;
+						if (opcija == "--viewreports") {
+							sefPomocnaFunkcija2();
+							std::string dodatniUnos;
+							std::cin >> dodatniUnos;
+							if (dodatniUnos == "--daily") {
+
+							}
+							else if(dodatniUnos == "--weekly") {
+
+							}
+							else if (dodatniUnos == "--monthly") {
+
+							}
+							else {
+								pomocZaBiloKojuKlasuRadnika();
+								std::string pomoc;
+								std::cin >> pomoc;
+								if (pomoc == "--doc" || pomoc == "-d") {
+									sefPomocnaFunkcija1();
+								}
+							}
+						}
+						else if (opcija == "--viewreservations") {
+
+						}
+						else if (opcija == "-logout") {
+							//OVDJE SE NE RADI NISTA, CISTO DA SE NE UDJE U ELSE 
+						}
+						else {
+							pomocZaBiloKojuKlasuRadnika();
+							std::string pomoc;
+							std::cin >> pomoc;
+							if (pomoc == "--doc" || pomoc == "-d") {
+								sefPomocnaFunkcija1();
+							}
+						}
+					} while (opcija != "-logout");
 				}
 				else if (r.getradnoMjesto() == "Operater") {
-					//FUNKCIONALNOSTI OPERATERA
+					Operater o(r.getIme(), r.getLozinka());
+					prikaziPodatkeORadniku(o);
+					do {
+						//operaterPomocnaFunkcija();
+						std::cout << "Unesite opciju za rad: " << std::endl;
+						std::cin >> opcija;
+						if (opcija == "--viewreservations") {
+
+						}
+						else if (opcija == "--view") {
+
+						}
+						else if (opcija == "--viewspecific") {
+							operaterPomocnaFunkcija2();
+							std::string dodatniUnos;
+							std::cin >> dodatniUnos;
+							if (dodatniUnos == "--permit") {
+
+							}
+							else if (dodatniUnos == "--decline") {
+
+							}
+							else {
+								//NE RADI SE NISTA OVDJE
+							}
+						}
+						else if (opcija == "--logout") {
+
+						}
+						else {
+							pomocZaBiloKojuKlasuRadnika();
+							std::string pomoc;
+							std::cin >> pomoc;
+							if (pomoc == "--doc" || pomoc == "-d") {
+								operaterPomocnaFunkcija();
+							}
+						}
+					} while (opcija != "-logout");
 				}
 				else if (r.getradnoMjesto() == "Kontrolor") {
-					//FUNKCIONALNOSTI KONTROLORA
+					Kontrolor k(r.getIme(), r.getLozinka());
+					prikaziPodatkeORadniku(k);
+					do {
+						//kontrolorPomocnaFunkcija();
+						std::cout << "Unesite opciju za rad: " << std::endl;
+						std::cin >> opcija;
+						if (opcija == "--create") {
+
+						}
+						else if (opcija == "--decline") {
+
+						}
+						else if (opcija == "--view") {
+
+						}
+						else if (opcija == "--change") {
+
+						}
+						else if (opcija == "-logout") {
+
+						}
+						else {
+							pomocZaBiloKojuKlasuRadnika();
+							std::string pomoc;
+							std::cin >> pomoc;
+							if (pomoc == "--doc" || pomoc == "-d") {
+								kontrolorPomocnaFunkcija();
+							}
+						}
+					} while (opcija != "-logout");
 				}
 			}
 			else {
@@ -79,38 +328,4 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 	} while (korisnickoIme != "--exit");
 }
 
-void sefPomocnaFunkcija1() {
-	std::cout << "Unesite --viewreports za pregled izvjestaja na dnevnom nivou." << std::endl;
-	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
-}
 
-void sefPomocnaFunkcija2() {
-	std::cout << "Unesite --daily za pregled izvjestaja na dnevnom nivou." << std::endl;
-	std::cout << "Unesite --weekly za pregled izvjestaja na sedmicnom nivou." << std::endl;
-	std::cout << "Unesite --monthly za pregled izvjestaja na mjesecnom nivou." << std::endl;	
-}
-
-void kontrolorPomocnaFunkcija() {
-	std::cout << "Unesite --create za kreiranje novog leta." << std::endl;
-	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
-	std::cout << "Unesite --view za pregled informacija o svakom letu." << std::endl;
-	std::cout << "Unesite --change za mijenjanje statusa leta." << std::endl;
-}
-
-void operaterPomocnaFunkcija() {
-	std::cout << "Unesite --viewreservations za pregled rezervacije letova." << std::endl;
-	std::cout << "Unesite --view za pregled odobrenih i otkazanih rezervacija letova." << std::endl;
-	std::cout << "Unesite --viewspecific za prikaz odredjene rezervacije letova." << std::endl;
-}
-
-void operaterPomocnaFunkcija2() {
-	std::cout << "Unesite --permit za odobravanje leta." << std::endl;
-	std::cout << "Unesite --decline za otkazivanje leta." << std::endl;
-}
-
-void administratorPomocnaFunkcija() {
-	std::cout << "Unesite --list za pregled liste radnika." << std::endl;
-	std::cout << "Unesite --delete za brisanje naloga radnika." << std::endl;
-	std::cout << "Unesite --suspend za suspendovanje naloga radnika." << std::endl;
-	std::cout << "Unesite --create za kreiranje naloga radnika." << std::endl;
-}

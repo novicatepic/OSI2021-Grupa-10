@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "PomocZaSefa.h"
 
 class Datum {
 private:
@@ -49,5 +50,32 @@ public:
 		}
 		else
 			return os;
+	}
+
+	bool operator==(const Datum& drugiDatum) const {
+		if (this->dan == drugiDatum.dan && this->mjesec == drugiDatum.mjesec && this->godina == drugiDatum.godina)
+			return true;
+
+		return false;
+	}
+
+	bool operator>=(const Datum& drugiDatum) const {
+		if (*this == drugiDatum)
+			return true;
+
+		if (this->godina > drugiDatum.godina ||
+			(this->godina == drugiDatum.godina && this->mjesec > drugiDatum.mjesec) ||
+			(this->godina == drugiDatum.godina && this->mjesec == drugiDatum.mjesec && this->dan > drugiDatum.dan)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	bool operator<=(const Datum& drugiDatum) const {
+		if (*this == drugiDatum)
+			return true;
+
+		return !(*this >= drugiDatum);
 	}
 };
