@@ -56,8 +56,5 @@
     <ClInclude Include="Datum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PomocZaSefa.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
