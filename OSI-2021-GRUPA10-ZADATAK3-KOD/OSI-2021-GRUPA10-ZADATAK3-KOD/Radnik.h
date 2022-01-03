@@ -15,6 +15,7 @@ public:
 	std::string getLozinka() const;
 	std::string getradnoMjesto() const;
 	bool getSuspendovan() const;
+	void setSuspendovan(bool suspenzija);
 
 	//bool operator==(const Radnik& other) const;
 	friend std::ostream& operator<<(std::ostream& os, const Radnik& r);

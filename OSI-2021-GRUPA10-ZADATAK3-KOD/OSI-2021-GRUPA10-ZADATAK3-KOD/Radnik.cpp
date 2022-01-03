@@ -20,6 +20,10 @@ bool Radnik::getSuspendovan() const {
 	return  this->suspendovan;
 }
 
+void Radnik::setSuspendovan(bool suspenzija) {
+	this->suspendovan = suspenzija;
+}
+
 /*bool Radnik::operator==(const Radnik& other) const {
 	if (this->korisnickoIme == other.korisnickoIme && this->lozinka == other.lozinka)
 		return true;
