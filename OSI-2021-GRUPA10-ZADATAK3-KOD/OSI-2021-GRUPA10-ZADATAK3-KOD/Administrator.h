@@ -9,5 +9,6 @@ public:
 	Administrator(std::string korisnickoIme, std::string lozinka);
 	bool dodajRadnika();
 	bool suspendujRadnika(Radnik r);
-	bool obrisiRadnika(Radnik r);
-}; 
+	void obrisiRadnika();
+	void pregledRadnika();
+};
