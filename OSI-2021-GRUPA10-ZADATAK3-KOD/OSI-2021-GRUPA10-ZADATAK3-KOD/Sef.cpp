@@ -1,6 +1,6 @@
 
 
-#include <vector>
+
 
 #include "Sef.h"
 #include "Let.h"
@@ -8,22 +8,28 @@
 
 
 
-void Sef::pregled_zavrsenih_letova_dnevno(Datum d)
+void Sef::pregled_zavrsenih_letova_dnevno(Datum date)
 {
 	try {
 
-		Let temp_let(0, "0", "0", 0, 0, 0, 0);
-
-		fstream file;
+		Let temp_let;
+		
+		ifstream file;
 		file.open(ZAVRSENI_LETOVI_FILEPATH, ios::in);
 				
 
 		if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
 
+
+
+		cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+
 		while (!file.eof())
 		{	
+			temp_let.ucitajLet(file);
 			
-			
+			if (temp_let.getDatum() == date)
+				temp_let.ispisi_let();
 		}
 
 		file.close();
@@ -33,6 +39,8 @@ void Sef::pregled_zavrsenih_letova_dnevno(Datum d)
 		cout << e.what() << endl;
 	}
 }
+
+
 
 
 
@@ -165,3 +173,5 @@ Datum vratiDatum(Datum pocetniDatum) {
 		return rez;
 	}
 }
+
+

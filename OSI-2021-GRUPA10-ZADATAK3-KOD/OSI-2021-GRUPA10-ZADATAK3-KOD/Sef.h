@@ -5,13 +5,20 @@
 #include <fstream>		
 #include <string>		//getline()
 
+
 #include "Radnik.h"
 #include "Datum.h"
+
 
 #define ZAVRSENI_LETOVI_FILEPATH  "./LETOVI/ZAVRSENI_LETOVI.txt"
 #define REZERVACIJE_FILEPATH	  "./LETOVI/REZERVACIJE.txt"
 
+
+class Let;
+
+
 using namespace std;
+
 
 
 class Sef : virtual public Radnik
@@ -35,6 +42,8 @@ public:
 	void pregled_rezervacija();
 
 };
+
+
 
 bool prestupnaGodina(int godina);
 

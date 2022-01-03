@@ -33,6 +33,9 @@
     <ClCompile Include="Radnik.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Let.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Radnik.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Datum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Let.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
