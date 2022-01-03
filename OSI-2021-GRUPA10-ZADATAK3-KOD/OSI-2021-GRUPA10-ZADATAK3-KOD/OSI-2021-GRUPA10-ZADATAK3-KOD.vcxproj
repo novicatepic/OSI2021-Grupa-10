@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="Kontrolor.cpp" />
+    <ClCompile Include="Let.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operater.cpp" />
     <ClCompile Include="Radnik.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Datum.h" />
     <ClInclude Include="Kontrolor.h" />
     <ClInclude Include="KorisnickaDokumentacijaIPomocneFunkcije.h" />
+    <ClInclude Include="Let.h" />
     <ClInclude Include="Operater.h" />
     <ClInclude Include="Radnik.h" />
     <ClInclude Include="Sef.h" />
