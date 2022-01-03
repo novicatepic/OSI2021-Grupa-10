@@ -4,7 +4,6 @@
 #include "Kontrolor.h"
 #include "Operater.h"
 #include "KorisnickaDokumentacijaIPomocneFunkcije.h"
-#include "PomocZaSefa.h"
 #include "Datum.h"
 #include <iostream>
 #include <string>
