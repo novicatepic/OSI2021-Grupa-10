@@ -1,8 +1,11 @@
 #pragma once
+
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "PomocZaSefa.h"
+
 
 class Datum {
 private:
