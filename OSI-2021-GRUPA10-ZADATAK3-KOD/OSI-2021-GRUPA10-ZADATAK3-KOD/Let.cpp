@@ -113,6 +113,8 @@ void Let::ucitajLet(ifstream& file)
 	getline(file, t_date_g, '.');										// ne valja
 	this->setDatum(stoi(t_date_d), stoi(t_date_m), stoi(t_date_g));		// sarcu.
 
+	//file >> this->datum; RADI I OVO, VALJA SARCU, SLUZI SVRSI
+
 	getline(file, nothing, ',');										// Da dodje do zareza i da ga preskoci, idemo dalje, na opis.
 
 															
@@ -141,3 +143,26 @@ void Let::ispisi_let() const
 	cout << this->getBr_slobodnih_mjesta() << endl;
 }
 
+std::istream& operator>>(std::istream& is, Let& l) {
+	std::cout << "Unesite ID leta: " << std::endl;
+	is >> l.ID;
+	std::cout << "Unesite vrijeme polijetanja: " << std::endl;
+	is >> l.vrijeme_polijetanja;
+	std::cout << "Unesite vrijeme slijetanja: " << std::endl;
+	is >> l.vrijeme_slijetanja;
+	std::cout << "Unesite datum: " << std::endl;
+	is >> l.datum;
+	std::cout << "Unesite opis: " << std::endl;
+	is >> l.opis;
+	std::cout << "Unesite broj mjesta: " << std::endl;
+	is >> l.br_mjesta;
+	std::cout << "Unesite broj slobodnih mjesta: " << std::endl;
+	is >> l.br_slobodnih_mjesta;
+	return is;
+}
+
+std::ostream& operator<<(std::ofstream& ofs, const Let& l) {
+	ofs << l.ID << ',' << l.vrijeme_polijetanja << ',' << l.vrijeme_slijetanja << ','
+		<< l.datum << ',' << l.opis << ',' << l.br_mjesta << ',' << l.br_slobodnih_mjesta << std::endl;
+	return ofs;
+}

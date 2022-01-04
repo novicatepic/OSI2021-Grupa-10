@@ -5,6 +5,7 @@
 #include "Operater.h"
 #include "KorisnickaDokumentacijaIPomocneFunkcije.h"
 #include "Datum.h"
+#include "Let.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -20,18 +21,14 @@ int main() {
 		std::string korisnickoIme, lozinka;
 		std::cout << "Prvo ocitavanje fajla : privremeni admin napravljen!" << std::endl;
 		std::cout << "Unesite korisnicko ime i lozinku za prvog admina u sistemu: " << std::endl;
-		std::cout << "Unesite korisnicko ime" << std::endl;
+		std::cout << "Unesite korisnicko ime: " ;
 		std::cin >> korisnickoIme;
-		std::cout << "Unesite lozinku" << std::endl;
+		std::cout << "Unesite lozinku: ";
 		std::cin >> lozinka;
 		Radnik r(korisnickoIme, lozinka, "Administrator");
 		pisiUFajl.write((char*)&r, sizeof(Radnik));
 		pisiUFajl.close();
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
+		pisiNoveRedove();
 		//Administrator a(korisnickoIme, lozinka);
 		//std::string unosOpcije;
 		pomocnaFunkcijaPriPrijavljivanju();
@@ -98,6 +95,29 @@ int main() {
 	//Datum d(27, 12, 2021);
 	//Datum nadji = vratiDatum(d);
 	//std::cout << nadji;
+
+	//PRIKAZ ZA ZORANA, KAKO SE KORISTE LETOVI
+	/*auto upis = std::ofstream("proba.txt", std::ios::in);
+	Let l;
+	upis << l;
+	upis << l;
+	upis.close();
+	auto citaj = std::ifstream("proba.txt", std::ios::out);
+	l.ucitajLet(citaj);
+	l.ispisi_let();
+	l.ucitajLet(citaj);
+	l.ispisi_let();*/
+
+	//OVAKO CE SE RADITI SA VREMENOM
+	/*std::string vrijeme = "20";
+	std::string minute = "-2";
+	//std::cout << vrijeme[0];
+	if (minute < "0" || minute > "60")
+		std::cout << "Neispravan unos" << std::endl;
+	std::string vr;
+	int br = std::stoi(vrijeme);
+	std::string rez = vrijeme + ":" + minute;
+	std::cout << rez << std::endl;*/
 
 	return 0;
 }

@@ -52,11 +52,17 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Datum& d) {
-		if (d.getDan() != 0 && d.getMjesec() != 0 && d.getGodina() != 0) {
-			return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.';
-		}
-		else
-			return os;
+		return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.';
+	}
+
+	friend std::istream& operator>>(std::istream& is, Datum& d) {
+		std::cout << "Unesite dan: " << std::endl;
+		is >> d.dan;
+		std::cout << "Unesite mjesec: " << std::endl;
+		is >> d.mjesec;
+		std::cout << "Unesite godinu: " << std::endl;
+		is >> d.godina;
+		return is;
 	}
 	
 	bool operator==(const Datum& drugiDatum) const {

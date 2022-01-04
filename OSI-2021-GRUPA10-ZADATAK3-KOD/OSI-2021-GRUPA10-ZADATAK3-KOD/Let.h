@@ -5,6 +5,7 @@
 
 #include "Datum.h"
 
+#include <fstream>
 
 using namespace std;
 
@@ -46,4 +47,6 @@ public:
 
 	void ispisi_let() const;
 	void ucitajLet(ifstream&);
+	friend std::istream& operator>>(std::istream&, Let&);
+	friend std::ostream& operator<<(std::ofstream&, const Let&);
 };

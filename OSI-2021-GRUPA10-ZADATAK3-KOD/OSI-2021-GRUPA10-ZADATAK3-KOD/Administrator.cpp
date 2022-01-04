@@ -4,10 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 
-Administrator::Administrator(std::string korisnickoIme, std::string lozinka)
-{
-	Radnik (korisnickoIme, lozinka, "Administrator");
-}
+Administrator::Administrator(std::string korisnickoIme, std::string lozinka) : Radnik(korisnickoIme, lozinka, "Administrator") {}
 
 
 bool Administrator::dodajRadnika(){
