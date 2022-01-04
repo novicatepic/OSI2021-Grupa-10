@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdio.h>
 
 int main() {
 	//LOGIKA KOJOM CEMO RADITI KASNIJE
