@@ -85,7 +85,7 @@ void Let::setBr_slobodnih_mjesta(int br2)
 }
 
 
-// Ucitava podatke o letu iz fajla i dodjeljuje vrijednosti proslijedjenom objektu
+// Ucitava podatke o letu iz fajla i dodjeljuje vrijednosti proslijedjenom objektu (this)
 void Let::ucitajLet(ifstream& file)
 {
 
@@ -109,9 +109,9 @@ void Let::ucitajLet(ifstream& file)
 	this->setVrijeme_slijetanja(t_vrijeme_slijetanja);
 															
 	getline(file, t_date_d, '.');										// Za ucitavanje datuma 
-	getline(file, t_date_m, '.');										// jer Novicina funkcija 
-	getline(file, t_date_g, '.');										// ne valja
-	this->setDatum(stoi(t_date_d), stoi(t_date_m), stoi(t_date_g));		// sarcu.
+	getline(file, t_date_m, '.');										// (postoji i Novicina funkcija) 
+	getline(file, t_date_g, '.');										// 
+	this->setDatum(stoi(t_date_d), stoi(t_date_m), stoi(t_date_g));		//
 
 	getline(file, nothing, ',');										// Da dodje do zareza i da ga preskoci, idemo dalje, na opis.
 

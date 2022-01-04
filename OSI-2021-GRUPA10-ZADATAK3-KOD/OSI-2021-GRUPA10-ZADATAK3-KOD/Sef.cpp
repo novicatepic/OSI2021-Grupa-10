@@ -8,43 +8,164 @@
 
 
 
-void Sef::pregled_zavrsenih_letova_dnevno(Datum date)
+void Sef::pregledZavrsenihLetova()
 {
 	try {
 
-		Let temp_let;
+		char izbor;
+		Datum datum;
+
+		cout << "Unesite zeljenu opciju: "<< endl;
+		cout << "Dnevni prikaz   (prikaz svih letova koji su zavrseni na dan koji cete unijeti)                  - unesite 'd' " << endl;
+		cout << "Sedmicni prikaz (prikaz svih letova u periodu od 7 dana, pocevsi od datuma kojeg cete unijeti)  - unesite 's' " << endl;
+		cout << "Mjesecni prikaz (prikaz svih letova zavrsenih u mjesecu kojeg cete unijeti)                     - unesite 'm' " << endl;
+
+		cin >> izbor;
+
+		if (izbor == 'd')
+		{
+
+			cout << "-- Unos datuma -- " << endl; cin >> datum;
 		
-		ifstream file;
-		file.open(ZAVRSENI_LETOVI_FILEPATH, ios::in);
-				
+			korektanDatum(datum.getDan(), datum.getMjesec(), datum.getGodina());
+			this->pregledZavrsenihLetovaDnevno(datum);
 
-		if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
-
-
-
-		cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
-
-		while (!file.eof())
-		{	
-			temp_let.ucitajLet(file);
-			
-			if (temp_let.getDatum() == date)
-				temp_let.ispisi_let();
 		}
+		else if (izbor == 's')
+		{
 
-		file.close();
+			cout << "-- Unos datuma (pocetak sedmice) -- " << endl; cin >> datum;
+			
+			korektanDatum(datum.getDan(), datum.getMjesec(), datum.getGodina());
+			this->pregledZavrsenihLetovaSedmicno(datum);
+			
+		}
+		else if (izbor == 'm')
+		{
+
+			cout << "-- Unos datuma -- " << endl;  unosMjesecaIGodine(datum);
+			
+			korektanDatum(datum.getDan(), datum.getMjesec(), datum.getGodina());
+			this->pregledZavrsenihLetovaMjesecno(datum);
+			
+
+		}
+		else throw std::exception("  Pogresan odabir!  ");
+
+		
 	}
 	catch (const exception& e)
 	{
 		cout << e.what() << endl;
 	}
+
+
+}
+
+
+
+void Sef::pregledZavrsenihLetovaDnevno(Datum dan)
+{
+	Let temp_let;
+
+	ifstream file;
+	file.open(ZAVRSENI_LETOVI_FILEPATH, ios::in);
+
+
+	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
+
+
+	cout << "                                 -------------------------------  Dnevni izvjestaj za dan: " << dan << "  -------------------------------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+
+	while (!file.eof())
+	{
+		temp_let.ucitajLet(file);
+
+		if (temp_let.getDatum() > dan) break;							// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (1/3)    * * *
+																		// Fajl sa letovima je sortiran po datumu, tako da kad se dodje do prvog datuma veceg od dan - prekidaj
+
+		if (temp_let.getDatum() == dan)
+			temp_let.ispisi_let();
+	}
+
+	cout << "                                 ------------------------------------------------------------------------------------------------------" << endl;
+
+	file.close();
 }
 
 
 
 
+void Sef::pregledZavrsenihLetovaSedmicno(Datum dan)
+{
+	Let temp_let;
+	Datum plusSedamDana = sedamDanaKasnije(dan);
 
-void Sef::pregled_rezervacija()
+	ifstream file;
+	file.open(ZAVRSENI_LETOVI_FILEPATH, ios::in);
+
+
+	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
+
+
+	cout << "                                 ---------  Sedmicni izvjestaj za sedmicu: " << dan << " - " << plusSedamDana << "  ---------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+
+	while (!file.eof())
+	{
+		temp_let.ucitajLet(file);
+
+		if (temp_let.getDatum() >= plusSedamDana) break;								// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (2/3)    * * *
+																						// Fajl sa letovima je sortiran po datumu, tako da kad se dodje do prvog datuma veceg od dan+7 - prekidaj.
+
+		if(temp_let.getDatum()>= dan && temp_let.getDatum() < plusSedamDana)			// Ako je izmedju ucitanog dana i dan+7 - ispisi.
+			temp_let.ispisi_let();
+	}
+
+	cout << "                                 ------------------------------------------------------------------------------" << endl;
+
+	file.close();
+}
+
+
+
+
+void Sef::pregledZavrsenihLetovaMjesecno(Datum dan)
+{
+	Let temp_let;
+
+	ifstream file;
+	file.open(ZAVRSENI_LETOVI_FILEPATH, ios::in);
+
+
+	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
+
+
+	cout << "                                 ----------------------  Mjesecni izvjestaj za: " << dan.getMjesec() << ". mjesec  ----------------------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+
+	while (!file.eof())
+	{
+		temp_let.ucitajLet(file);
+
+		if (temp_let.getDatum().getGodina() > dan.getGodina() ||															// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (3/3)    * * *
+			(temp_let.getDatum().getGodina() == dan.getGodina() && temp_let.getDatum().getMjesec() > dan.getMjesec()))		// Fajl sa letovima je sortiran po datumu, tako da cim se dodje
+			break;																											// do datuma sa vecom godinom ili do datuma sa istom godinom a 
+																															// vecim mjesecom - prekidaj
+
+		if (temp_let.getDatum().getMjesec() == dan.getMjesec() && temp_let.getDatum().getGodina() == dan.getGodina())
+			temp_let.ispisi_let();
+	}
+
+	cout << "                                 ---------------------------------------------------------------------------------" << endl;
+
+	file.close();
+}
+
+
+
+void Sef::pregledRezervacija()
 {
 	try {
 
@@ -71,77 +192,7 @@ void Sef::pregled_rezervacija()
 
 
 
-bool prestupnaGodina(int godina)
-{
-	if (godina % 100 != 0 && godina % 4 == 0 || godina % 400 == 0)
-		return true;
-	return false;
-}
-
-int vratiKolikoDanaImaMjesec(int mjesec, int godina) {
-	switch (mjesec) {
-	case 1:
-	case 3:
-	case 5:
-	case 7:
-	case 8:
-	case 10:
-	case 12:
-		return 31;
-		break;
-	case 4:
-	case 6:
-	case 9:
-	case 11:
-		return 30;
-		break;
-	case 2:
-		if (prestupnaGodina(godina))
-			return 29;
-		else
-			return 28;
-		break;
-	default:
-		break;
-	}
-}
-
-bool korektanDatum(int mjesec, int dan, int godina) {
-	if (godina < 2010)
-		throw std::exception("Godina mora biti veca od 2020");
-
-	if (mjesec == 1 || mjesec == 3 || mjesec == 5 || mjesec == 7 || mjesec == 8 || mjesec == 10 || mjesec == 12) {
-		if (dan >= 1 && dan <= 31)
-			return true;
-		else
-			throw std::exception("Dani moraju biti izmedju 1 i 31!");
-	}
-	else if (mjesec == 4 || mjesec == 6 || mjesec == 9 || mjesec == 11) {
-		if (dan >= 1 && dan <= 30)
-			return true;
-		else
-			throw std::exception("Dani moraju biti izmedju 1 i 30!");
-	}
-	else if (mjesec == 2) {
-		if (prestupnaGodina(godina)) {
-			if (dan >= 1 && dan <= 29)
-				return true;
-			else
-				throw std::exception("Dani moraju biti izmedju 1 i 29");
-		}
-		else {
-			if (dan >= 1 && dan <= 28)
-				return true;
-			else
-				throw std::exception("Dani moraju biti izmedju 1 i 28");
-		}
-	}
-	else {
-		throw std::exception("Mjesec mora biti izmedju 1 i 12");
-	}
-}
-
-Datum vratiDatum(Datum pocetniDatum) {
+Datum sedamDanaKasnije(Datum pocetniDatum) {
 	//Datum rez;
 	try {
 		bool korDatum = korektanDatum(pocetniDatum.getMjesec(), pocetniDatum.getDan(), pocetniDatum.getGodina());

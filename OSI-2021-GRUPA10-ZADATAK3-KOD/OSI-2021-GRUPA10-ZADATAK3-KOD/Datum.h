@@ -39,8 +39,8 @@ public:
 		std::getline(ifs, dan, delim);
 		std::getline(ifs, mjesec, delim);
 		std::getline(ifs, godina, delim);
-						
-		
+
+
 		d.dan = std::stoi(dan);
 		d.mjesec = std::stoi(mjesec);
 		d.godina = std::stoi(godina);
@@ -52,13 +52,19 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Datum& d) {
-		if (d.getDan() != 0 && d.getMjesec() != 0 && d.getGodina() != 0) {
-			return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.';
-		}
-		else
-			return os;
+		return os << d.dan << '.' << d.mjesec << '.' << d.godina << '.';
 	}
-	
+
+	friend std::istream& operator>>(std::istream& is, Datum& d) {
+		std::cout << "Unesite dan: " << std::endl;
+		is >> d.dan;
+		std::cout << "Unesite mjesec: " << std::endl;
+		is >> d.mjesec;
+		std::cout << "Unesite godinu: " << std::endl;
+		is >> d.godina;
+		return is;
+	}
+
 	bool operator==(const Datum& drugiDatum) const {
 		if (this->dan == drugiDatum.dan && this->mjesec == drugiDatum.mjesec && this->godina == drugiDatum.godina)
 			return true;
@@ -86,10 +92,42 @@ public:
 		return false;
 	}
 
+	bool operator<(const Datum& drugiDatum) const {
+		if (this->godina < drugiDatum.godina ||
+			(this->godina == drugiDatum.godina && this->mjesec < drugiDatum.mjesec) ||
+			(this->godina == drugiDatum.godina && this->mjesec == drugiDatum.mjesec && this->dan < drugiDatum.dan)) {
+			return true;
+		}
+
+		else 
+			return false;
+	}
+
+	bool operator>(const Datum& drugiDatum) const {
+		if (drugiDatum >= (*this))
+			return false;
+		else
+			return true;
+	}
+
 	bool operator<=(const Datum& drugiDatum) const {
 		if (*this == drugiDatum)
 			return true;
 
 		return !(*this >= drugiDatum);
 	}
+
+
 };
+	//   --- Globalne funkcije ---
+
+bool korektanDatum(int mjesec, int dan, int godina);
+
+bool prestupnaGodina(int godina);
+
+int vratiKolikoDanaImaMjesec(int mjesec, int godina);
+
+
+// Ucitavanje samo mjeseca i godine sa standardnog ulaza
+void unosMjesecaIGodine(Datum&);
+

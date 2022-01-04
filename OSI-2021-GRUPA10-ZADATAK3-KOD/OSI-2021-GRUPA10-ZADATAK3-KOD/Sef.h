@@ -3,7 +3,7 @@
 
 #include <exception>
 #include <fstream>		
-#include <string>		//getline()
+#include <string>		
 
 
 #include "Radnik.h"
@@ -16,39 +16,34 @@
 
 class Let;
 
-
 using namespace std;
 
 
 
 class Sef : virtual public Radnik
 {
-private:
-
-
 public:
 	Sef(string username, string pass) : Radnik(username, pass, "Sef") {}
 	
-	// Prikazuje sve zavrsene letove na uneseni datum
-	void pregled_zavrsenih_letova_dnevno(Datum);
 
-	// Prikazuje sve zavrsene letove u 7 dana, pocevsi od unesenog datuma
-	void pregled_zavrsenih_letova_sedmicno(Datum);
+	// Nudi opciju da se izabere dnevni, sedmicni ili mjesecni pregled pa ispise letove u skladu sa izborom
+	void pregledZavrsenihLetova();
 
-	// Prikazuje sve zavrsene letove u narednih mjesec dana, pocevsi od unesenog datuma
-	void pregled_zavrsenih_letova_mjesecno(Datum);
+	void pregledRezervacija();
 
+private:
 
-	void pregled_rezervacija();
+	// Prikazuje sve zavrsene letove na uneseni datum - Poziva se iz  pregledZavrsenihLetova();
+	void pregledZavrsenihLetovaDnevno(Datum);
+
+	// Prikazuje sve zavrsene letove u sedmici koja pocinje unesenim datumom - Poziva se iz  pregledZavrsenihLetova();
+	void pregledZavrsenihLetovaSedmicno(Datum);
+
+	// Prikazuje sve zavrsene letove u mjesecu koji pocinje unesenim datumom - Poziva se iz pregledZavrsenihLetova();
+	void pregledZavrsenihLetovaMjesecno(Datum);
+
 
 };
 
-
-
-bool prestupnaGodina(int godina);
-
-int vratiKolikoDanaImaMjesec(int mjesec, int godina);
-
-bool korektanDatum(int mjesec, int dan, int godina);
-
-Datum vratiDatum(Datum pocetniDatum);
+// Vraca 7 dana kasnije od pocetnogDatuma uz sve provjere
+Datum sedamDanaKasnije(Datum pocetniDatum);

@@ -24,7 +24,7 @@ public:
 	Let(int id, string vr_p, string vr_s, Datum d, string op, int br1, int br2)
 		: ID(id), vrijeme_polijetanja(vr_p), vrijeme_slijetanja(vr_s), datum(d), opis(op), br_mjesta(br1), br_slobodnih_mjesta(br2) {}
 
-	Let() : ID(0), vrijeme_polijetanja("xxx"), vrijeme_slijetanja("xxx"), datum(), opis("xxx"), br_mjesta(0), br_slobodnih_mjesta(0) {}
+	Let() : ID(0), vrijeme_polijetanja("xxx"), vrijeme_slijetanja("xxx"), datum(0, 0, 0), opis("xxx"), br_mjesta(0), br_slobodnih_mjesta(0) {}
 
 	inline int getID() const;
 	inline string getVrijeme_polijetanja() const;
