@@ -121,7 +121,7 @@ public:
 };
 	//   --- Globalne funkcije ---
 
-bool korektanDatum(int mjesec, int dan, int godina);
+bool korektanDatum(int dan, int mjesec, int godina);
 
 bool prestupnaGodina(int godina);
 
