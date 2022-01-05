@@ -16,7 +16,8 @@ public:
 
 	int kolikoAdministratora() {
 		int brojac = 0;
-		auto citaj = std::ifstream("radnici.dat");
+		std::ifstream citaj;
+		citaj.open("radnici.dat", std::ios::binary | std::ios::in);
 		try {
 			if (citaj) {
 				Radnik* r;
@@ -39,7 +40,8 @@ public:
 
 	int kolikoSefova() {
 		int brojac = 0;
-		auto citaj = std::ifstream("radnici.dat");
+		std::ifstream citaj;
+		citaj.open("radnici.dat", std::ios::binary | std::ios::in);
 		try {
 			if (citaj) {
 				Radnik* r;
