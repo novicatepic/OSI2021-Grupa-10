@@ -7,157 +7,132 @@
 Administrator::Administrator(std::string korisnickoIme, std::string lozinka) : Radnik(korisnickoIme, lozinka, "Administrator") {}
 
 
-void Administrator::dodajRadnika(){
-	try {
-		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
-		try {
-			if (!pisiUFajl) throw std::exception("-Neuspjesno otvaranje datoteke!-");
-			std::string korisnickoIme, lozinka, radnoMjesto;
+bool Administrator::dodajRadnika(){
+	auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
+	if (pisiUFajl) {
+		std::string korisnickoIme, lozinka, radnoMjesto;
+		
+		std::cout << "Dodajete podatke o korisniku:" << std::endl;
+		std::cout << "(Napomena: Unositi tip radnog mjesta sa pocetnim velikim slovom!)" << std::endl;
+		std::cout << "Korisnicko ime: "; std::cin >> korisnickoIme;
+		std::cout << "Lozinka: "; std::cin >> lozinka;
+		do
+		{
+			std::cout << "Radno mjesto: "; std::cin >> radnoMjesto;
 
-			std::cout << "Dodajete podatke o korisniku:" << std::endl;
-			std::cout << "(Napomena: Unositi tip radnog mjesta sa pocetnim velikim slovom!)" << std::endl;
-			std::cout << "Korisnicko ime: "; std::cin >> korisnickoIme;
-			if (provjeriIme(korisnickoIme)) throw std::exception("-Korisnicko ime zauzeto!-");
-			std::cout << "Lozinka: "; std::cin >> lozinka;
-			do
-			{
-				std::cout << "Radno mjesto: "; std::cin >> radnoMjesto;
+		}while ((radnoMjesto != "Sef" && radnoMjesto != "Administrator" && radnoMjesto!= "Kontrolor"
+			&& radnoMjesto != "Operater"));
+		Radnik r(korisnickoIme,lozinka, radnoMjesto);
+		pisiUFajl.write((char*)&r, sizeof(Radnik));
 
-			} while ((radnoMjesto != "Sef" && radnoMjesto != "Administrator" && radnoMjesto != "Kontrolor"
-				&& radnoMjesto != "Operater"));
-			Radnik r(korisnickoIme, lozinka, radnoMjesto);
-			pisiUFajl.write((char*)&r, sizeof(Radnik));
-
-			pisiUFajl.close();
-			std::cout << "Radnik " << "'" << korisnickoIme << "' " << "uspjesno dodat." << std::endl;
-		}
-		catch(const std::exception& e) {
-			std::cout << e.what() << std::endl;
-		}
+		pisiUFajl.close();
+		return true;
 	}
-	catch (const  std::exception& e) {
-		std::cout << e.what() << std::endl;
+	else {
+		return false;
 	}
 }
 
 void Administrator::obrisiRadnika() {
-	try {
-		std::string korisnickoIme;
-		std::string lozinka;
-		std::cout << "Unesite korisnicko ime radnika ciji nalog zelite da obrisete: " << std::endl;
-		std::cin >> korisnickoIme;
-		if (!provjeriIme(korisnickoIme)) throw std::exception("-Ne postoji korisnik sa datim imenom-");
-		std::cout << "Unesite lozinku radnika ciji nalog zelite da obrisete: " << std::endl;
-		std::cin >> lozinka;
 
-		std::ifstream ocitavanje;
-		std::ofstream upisivanje;
+	std::string korisnickoIme;
+	std::string lozinka;
+	std::cout << "Unesite korisnicko ime radnika ciji nalog zelite da obrisete: " << std::endl;
+	std::cin >> korisnickoIme;
+	std::cout << "Unesite lozinku radnika ciji nalog zelite da obrisete: " << std::endl;
+	std::cin >> lozinka;
 
-		ocitavanje.open("radnici.dat", std::ios::binary | std::ios::in);
+	std::ifstream ocitavanje;
+	std::ofstream upisivanje;
 
-		if (ocitavanje) {
-			Radnik* r = new Radnik;
-			while (ocitavanje.good()) {
-				r = new Radnik;
-				ocitavanje.read((char*)r, sizeof(Radnik));
-				if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
-					ocitavanje.close();
-					break;
-				}
-			}
+	ocitavanje.open("radnici.dat", std::ios::binary | std::ios::in);
 
-			if (r->getIme() != "") {
-				auto upis = std::ofstream("temp.dat", std::ios::binary | std::ios::out | std::ios::app);
-				auto citanje = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
-				if (citanje) {
-
-					while (citanje.good()) {
-						Radnik* t = new Radnik;
-						citanje.read((char*)t, sizeof(Radnik));
-						if (t->getIme() != r->getIme()) {
-							upis.write((char*)t, sizeof(Radnik));
-						}
-					}
-					citanje.close();
-					upis.close();
-					remove("radnici.dat");
-					rename("temp.dat", "radnici.dat");
-					std::cout << "Radnik " << "'" << r->getIme() << "' " << "uspjesno obrisan." << std::endl;
-				}
+	if (ocitavanje) {
+		Radnik* r = new Radnik;
+		while (ocitavanje.good()) {
+			r = new Radnik;
+			ocitavanje.read((char*)r, sizeof(Radnik));
+			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
+				ocitavanje.close();
+				break;
 			}
 		}
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what() << std::endl;
+
+		if (r->getIme() != "") {
+			auto upis = std::ofstream("temp.dat", std::ios::binary | std::ios::out | std::ios::app);
+			auto citanje = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
+			if (citanje) {
+
+				while (citanje.good()) {
+					Radnik* t = new Radnik;
+					citanje.read((char*)t, sizeof(Radnik));
+					if (t->getIme() != r->getIme()) {
+						upis.write((char*)t, sizeof(Radnik));
+					}
+				}
+				citanje.close();
+				upis.close();
+				remove("radnici.dat");
+				rename("temp.dat", "radnici.dat");
+			}
+		}
 	}
 }
 
 
 void Administrator::suspendujRadnika() {
-	try {
-		std::string korisnickoIme;
-		int suspenzija;
-		std::cout << "Unesite korisnicko ime radnika ciji nalog zelite da suspendujete:" << std::endl;
-		std::cin >> korisnickoIme;
-		if (!provjeriIme(korisnickoIme)) throw std::exception("-Ne postoji korisnik sa datim imenom-");
-		std::cout << "Unesite 1 ili 0 da suspendujete ili uklonite suspenziju:" << std::endl;
-		std::cin >> suspenzija;
+	std::string korisnickoIme;
+	int suspenzija;
+	std::cout << "Unesite korisnicko ime radnika ciji nalog zelite da suspendujete:" << std::endl;
+	std::cin >> korisnickoIme;
+	std::cout << "Unesite 1 ili 0 da suspendujete ili uklonite suspenziju:" << std::endl;
+	std::cin >> suspenzija;
 
-		std::ifstream ocitavanje;
+	std::ifstream ocitavanje;
 
-		ocitavanje.open("radnici.dat", std::ios::binary | std::ios::in);
+	ocitavanje.open("radnici.dat", std::ios::binary | std::ios::in);
 
-		if (ocitavanje) {
-			Radnik* r = new Radnik;
-			while (ocitavanje.good()) {
-				r = new Radnik;
-				ocitavanje.read((char*)r, sizeof(Radnik));
-				if (r->getIme() == korisnickoIme) {
-					ocitavanje.close();
-					break;
-				}
+	if (ocitavanje) {
+		Radnik* r = new Radnik;
+		while (ocitavanje.good()) {
+			r = new Radnik;
+			ocitavanje.read((char*)r, sizeof(Radnik));
+			if (r->getIme() == korisnickoIme) {
+				ocitavanje.close();
+				break;
 			}
-			if (suspenzija == 1) {
-				r->setSuspendovan(true);
-			}
-			else if (suspenzija == 0) {
-				r->setSuspendovan(false);
-			}
-
-			if (r->getIme() != "") {
-				auto upis = std::ofstream("temp.dat", std::ios::binary | std::ios::out | std::ios::app);
-				auto citanje = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
-				if (citanje) {
-
-					while (citanje.good()) {
-						Radnik* t = new Radnik;
-						citanje.read((char*)t, sizeof(Radnik));
-						if (t->getIme() != r->getIme()) {
-							upis.write((char*)t, sizeof(Radnik));
-						}
-					}
-					citanje.close();
-					upis.close();
-					remove("radnici.dat");
-					rename("temp.dat", "radnici.dat");
-				}
-			}
-			auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
-			if (pisiUFajl) {
-				pisiUFajl.write((char*)r, sizeof(Radnik));
-				pisiUFajl.close();
-				if (suspenzija == 1) {
-					std::cout << "Radnik " << "'" << r->getIme() << "' " << "uspjesno suspendovan." << std::endl;
-				}
-				else {
-					std::cout << "Radniku " << "'" << r->getIme() << "' " << "uspjesno uklonjena suspenzija." << std::endl;
-				}
-			}
-
 		}
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what() << std::endl;
+		if (suspenzija == 1) {
+			r->setSuspendovan(true);
+		}
+		else if(suspenzija==0) {
+			r->setSuspendovan(false);
+		}
+
+		if (r->getIme() != "") {
+			auto upis = std::ofstream("temp.dat", std::ios::binary | std::ios::out | std::ios::app);
+			auto citanje = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
+			if (citanje) {
+
+				while (citanje.good()) {
+					Radnik* t = new Radnik;
+					citanje.read((char*)t, sizeof(Radnik));
+					if (t->getIme() != r->getIme()) {
+						upis.write((char*)t, sizeof(Radnik));
+					}
+				}
+				citanje.close();
+				upis.close();
+				remove("radnici.dat");
+				rename("temp.dat", "radnici.dat");
+			}
+		}
+		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
+		if (pisiUFajl) {
+			pisiUFajl.write((char*)r, sizeof(Radnik));
+			pisiUFajl.close();
+		}
+
 	}
 
 }
@@ -173,24 +148,5 @@ void Administrator::pregledRadnika() {
 			std::cout << r->getIme() << "  " << r->getradnoMjesto() << "  " << r->getLozinka() << " " <<
 				r->getSuspendovan() << std::endl;
 		}
-	}
-}
-
-bool Administrator::provjeriIme(std::string ime) {
-
-	auto citanje = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
-
-	if (citanje) {
-		Radnik* r = new Radnik;
-		while (citanje.good()) {
-			r = new Radnik;
-			citanje.read((char*)r, sizeof(Radnik));
-			if (r->getIme() == ime) {
-				citanje.close();
-				return true;
-			}
-		}
-		citanje.close();
-		return false;
 	}
 }

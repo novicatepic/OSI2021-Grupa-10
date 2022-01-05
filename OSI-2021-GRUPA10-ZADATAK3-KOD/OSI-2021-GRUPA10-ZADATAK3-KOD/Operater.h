@@ -21,6 +21,11 @@ public:
     Operater(std::string username, std::string password);
     void ispisSvihLetova();
 
+    void ispisNeobradjenihRezervacija();
+    void obradaRezervacije();
+
+
+
 
 
 

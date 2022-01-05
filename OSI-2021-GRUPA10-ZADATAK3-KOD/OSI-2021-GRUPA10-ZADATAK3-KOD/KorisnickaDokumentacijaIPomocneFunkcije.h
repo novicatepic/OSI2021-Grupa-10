@@ -96,13 +96,8 @@ Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozink
 			Radnik* r = new Radnik;
 			citaj.read((char*)r, sizeof(Radnik));
 			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
-				if (r->getSuspendovan() == 1) {
-					std::cout << "Suspendovani ste, ne mozete se prijaviti na sistem!" << std::endl;
-				}
-				else {
-					citaj.close();
-					return *r;
-				}
+				citaj.close();
+				return *r;
 			}
 
 		}
@@ -199,7 +194,7 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 							}
 						}
 						else if (opcija == "--viewreservations") {
-							//s.pregled_rezervacija();
+							s.pregled_rezervacija();
 						}
 						else if (opcija == "-logout") {
 							//OVDJE SE NE RADI NISTA, CISTO DA SE NE UDJE U ELSE 
