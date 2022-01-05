@@ -112,8 +112,11 @@ void Administrator::suspendujRadnika() {
 		std::cout << "Unesite korisnicko ime radnika ciji nalog zelite da suspendujete:" << std::endl;
 		std::cin >> korisnickoIme;
 		if (!provjeriIme(korisnickoIme)) throw std::exception("-Ne postoji korisnik sa datim imenom-");
-		std::cout << "Unesite 1 ili 0 da suspendujete ili uklonite suspenziju:" << std::endl;
-		std::cin >> suspenzija;
+		do {
+			std::cout << "Unesite 1 ili 0 da suspendujete ili uklonite suspenziju:" << std::endl;
+			std::cin >> suspenzija;
+			if (suspenzija != 1 && suspenzija != 0) std::cout << "NEKOREKTAN UNOS!" << std::endl;
+		} while (suspenzija != 1 && suspenzija != 0);
 
 		std::ifstream ocitavanje;
 
