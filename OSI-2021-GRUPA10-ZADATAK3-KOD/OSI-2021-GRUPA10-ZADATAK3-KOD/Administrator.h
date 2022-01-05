@@ -7,9 +7,8 @@ private:
 
 public:
 	Administrator(std::string korisnickoIme, std::string lozinka);
-	void dodajRadnika();
+	bool dodajRadnika();
 	void suspendujRadnika();
 	void obrisiRadnika();
 	void pregledRadnika();
-	bool provjeriIme(std::string ime);
 };
