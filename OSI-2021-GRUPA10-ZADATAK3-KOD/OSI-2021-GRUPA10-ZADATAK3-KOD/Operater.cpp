@@ -39,6 +39,18 @@ void Operater::ispisNeobradjenihRezervacija()
     std::system(command.c_str());
 }
 
+void Operater::ispisOdbijenihRezervacija()
+{
+    std::string command = "dir *.txt /b /a-d rezervacije/odbijene_rezervacije";
+    std::system(command.c_str());
+}
+
+void Operater::ispisOdobrenihRezervacija()
+{
+    std::string command = "dir *.txt /b /a-d rezervacije/odobrene_rezervacije";
+    std::system(command.c_str());
+}
+
 void Operater::obradaRezervacije()
 {
     //stavio sam ovdje ispis zbog lakseg unosa 
