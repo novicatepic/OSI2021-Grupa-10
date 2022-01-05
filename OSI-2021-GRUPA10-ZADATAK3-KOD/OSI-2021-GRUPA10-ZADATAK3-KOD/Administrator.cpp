@@ -25,6 +25,18 @@ void Administrator::dodajRadnika() {
 
 			} while ((radnoMjesto != "Sef" && radnoMjesto != "Administrator" && radnoMjesto != "Kontrolor"
 				&& radnoMjesto != "Operater"));
+
+			if (radnoMjesto == "Administrator") {
+				if (kolikoAdministratora() >= 2) {
+					throw std::exception("-Dozvoljeno maksinalno 2 administratora u sistemu!-");
+				}
+			}
+			else if (radnoMjesto == "Sef") {
+				if (kolikoSefova() >= 3) {
+					throw std::exception("-Dozvoljeno maksimalno 3 sefa u sistemu!-");
+				}
+			}
+
 			Radnik r(korisnickoIme, lozinka, radnoMjesto);
 			pisiUFajl.write((char*)&r, sizeof(Radnik));
 
