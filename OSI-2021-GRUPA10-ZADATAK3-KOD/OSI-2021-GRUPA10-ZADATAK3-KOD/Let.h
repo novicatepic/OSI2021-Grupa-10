@@ -49,4 +49,13 @@ public:
 	void ucitajLet(ifstream&);
 	friend std::istream& operator>>(std::istream&, Let&);
 	friend std::ostream& operator<<(std::ofstream&, const Let&);
+
+
+
+
+
+
+
+
+	bool pomocZaOperatera(std::string id);
 };

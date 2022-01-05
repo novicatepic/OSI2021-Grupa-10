@@ -166,3 +166,56 @@ std::ostream& operator<<(std::ofstream& ofs, const Let& l) {
 		<< l.datum << ',' << l.opis << ',' << l.br_mjesta << ',' << l.br_slobodnih_mjesta << std::endl;
 	return ofs;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool Let::pomocZaOperatera(std::string id) {
+	auto otvori = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
+	try {
+		if (!otvori) {
+			throw std::exception("Ne postoji let sa datim ID!");
+		}
+		else {
+			Let l;
+			otvori >> l;
+			otvori.close();
+			if (l.br_slobodnih_mjesta >= 1) { //FALI JOS USLOV AKO MIRUJE 
+				l.br_slobodnih_mjesta -= 1;
+				auto promijeni = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
+				if (promijeni) {
+					promijeni << l;
+					promijeni.close();
+				}
+				return true;
+			} 
+			else {
+				return false;
+			}
+		}
+	}
+	catch (const std::exception& e) {
+		std::cout << e.what();
+		return false;
+	}
+}

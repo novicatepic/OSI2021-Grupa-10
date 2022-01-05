@@ -18,11 +18,9 @@ void Operater::ispisSvihLetova()
     /*namespace fs = std::filesystem;
     std::string path = "\\LETOVI";
     for (const auto& entry : fs::directory_iterator(path)) {
-
         std::string string = entry.path();
         string.erase(0, 9);
         string.erase(string.length() - 4);
-
         std::cout << string << std::endl;
     }*/
 
@@ -36,6 +34,18 @@ void Operater::ispisSvihLetova()
 void Operater::ispisNeobradjenihRezervacija()
 {
     std::string command = "dir *.txt /b /a-d rezervacije";
+    std::system(command.c_str());
+}
+
+void Operater::ispisOdbijenihRezervacija()
+{
+    std::string command = "dir *.txt /b /a-d rezervacije/odbijene_rezervacije";
+    std::system(command.c_str());
+}
+
+void Operater::ispisOdobrenihRezervacija()
+{
+    std::string command = "dir *.txt /b /a-d rezervacije/odobrene_rezervacije";
     std::system(command.c_str());
 }
 

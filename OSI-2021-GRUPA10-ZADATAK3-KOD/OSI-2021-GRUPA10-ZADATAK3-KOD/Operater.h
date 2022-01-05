@@ -22,6 +22,9 @@ public:
     void ispisSvihLetova();
 
     void ispisNeobradjenihRezervacija();
+    void ispisOdobrenihRezervacija();
+    void ispisOdbijenihRezervacija();
+
     void obradaRezervacije();
 
 

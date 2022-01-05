@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include "Radnik.h"
 
 class Administrator :virtual public Radnik {
@@ -7,8 +8,56 @@ private:
 
 public:
 	Administrator(std::string korisnickoIme, std::string lozinka);
-	bool dodajRadnika();
+	void dodajRadnika();
 	void suspendujRadnika();
 	void obrisiRadnika();
 	void pregledRadnika();
+	bool provjeriIme(std::string ime);
+
+	int kolikoAdministratora() {
+		int brojac = 0;
+		auto citaj = std::ifstream("radnici.dat");
+		try {
+			if (citaj) {
+				Radnik* r;
+				while (citaj.good()) {
+					r = new Radnik;
+					citaj.read((char*)r, sizeof(Radnik));
+					if (r->getradnoMjesto() == "Administrator") {
+						brojac++;
+					}
+				}
+			}
+		}
+		catch (const std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+		citaj.close();
+		return brojac;
+	}
+
+
+	int kolikoSefova() {
+		int brojac = 0;
+		auto citaj = std::ifstream("radnici.dat");
+		try {
+			if (citaj) {
+				Radnik* r;
+				while (citaj.good()) {
+					r = new Radnik;
+					citaj.read((char*)r, sizeof(Radnik));
+					if (r->getradnoMjesto() == "Sef") {
+						brojac++;
+					}
+				}
+			}
+		}
+		catch (const std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+		citaj.close();
+		return brojac;
+	}
 };
+
+

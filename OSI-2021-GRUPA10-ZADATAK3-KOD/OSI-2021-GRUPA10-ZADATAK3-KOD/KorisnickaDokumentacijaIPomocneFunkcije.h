@@ -88,7 +88,7 @@ void administratorPomocnaFunkcija() {
 }
 
 Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozinka) {
-	auto citaj = std::ifstream("radnici.dat", std::ios::binary);
+	auto citaj = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
 	//Radnik r;
 	if (citaj) {
 		while (citaj.good()) {
@@ -96,8 +96,16 @@ Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozink
 			Radnik* r = new Radnik;
 			citaj.read((char*)r, sizeof(Radnik));
 			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
-				citaj.close();
-				return *r;
+				if (r->getSuspendovan() == true) {
+					std::cout << "Nemoguca prijava na sistem, radnik je suspendovan!" << std::endl;
+					citaj.close();
+					Radnik r;
+					return r;
+				}
+				else {
+					citaj.close();
+					return *r;
+				}
 			}
 
 		}
@@ -118,6 +126,8 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 	std::string korisnickoIme;
 	std::string lozinka;
 	do {
+		//std::cout << "Sefova: " << kolikoSefova() << std::endl;
+		//std::cout << "Administratora: " << kolikoAdministratora() << std::endl;
 		std::cout << "Ukoliko zelite prestati sa radom, unesite --exit" << std::endl;
 		std::cout << "Unesite podatke za prijavljivanje: " << std::endl;
 		std::cout << "Unesite korisnicko ime" << std::endl;
@@ -134,6 +144,8 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 					//FUNKCIONALNOSTI ADMINISTRATORA
 					do {
 						//administratorPomocnaFunkcija();
+						//std::cout << "Sefova: " << a.kolikoSefova() << std::endl;
+						//std::cout << "Administratora: " << a.kolikoAdministratora() << std::endl;
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--list") {
@@ -194,7 +206,7 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 							}
 						}
 						else if (opcija == "--viewreservations") {
-							s.pregled_rezervacija();
+							//s.pregled_rezervacija();
 						}
 						else if (opcija == "-logout") {
 							//OVDJE SE NE RADI NISTA, CISTO DA SE NE UDJE U ELSE 

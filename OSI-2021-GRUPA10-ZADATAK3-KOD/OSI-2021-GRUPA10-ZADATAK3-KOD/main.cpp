@@ -12,12 +12,13 @@
 
 int main() {
 	//LOGIKA KOJOM CEMO RADITI KASNIJE
-	auto citajFajl = std::ifstream("radnici.dat", std::ios::binary);
+	auto citajFajl = std::ifstream("radnici.dat", std::ios::binary | std::ios::in);
 	if (citajFajl) {
+		citajFajl.close();
 		pomocnaFunkcijaPriPrijavljivanju();
 	}
 	else {
-		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app);
+		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app | std::ios::out);
 		std::string korisnickoIme, lozinka;
 		std::cout << "Prvo ocitavanje fajla : privremeni admin napravljen!" << std::endl;
 		std::cout << "Unesite korisnicko ime i lozinku za prvog admina u sistemu: " << std::endl;
