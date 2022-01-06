@@ -6,87 +6,87 @@
 
 
 
-int Let::getID() const
+int Let::getID() const noexcept
 {
 	return ID;
 }
 
-std::string Let::getVrijeme_polijetanja() const
+std::string Let::getVrijeme_polijetanja() const noexcept
 {
 	return vrijeme_polijetanja;
 }
 
-std::string Let::getVrijeme_slijetanja() const
+std::string Let::getVrijeme_slijetanja() const noexcept
 {
 	return vrijeme_slijetanja;
 }
 
-Datum Let::getDatum() const
+Datum Let::getDatum() const noexcept
 {
 	return datum;
 }
 
-std::string Let::getOpis() const
+std::string Let::getOpis() const noexcept
 {
 	return opis;
 }
 
-int Let::getBr_mjesta() const
+int Let::getBr_mjesta() const noexcept
 {
 	return br_mjesta;
 }
 
-int Let::getBr_slobodnih_mjesta() const
+int Let::getBr_slobodnih_mjesta() const noexcept
 {
 	return br_slobodnih_mjesta;
 }
 
 
-void Let::setID(int id)
+void Let::setID(int id) noexcept
 {
 	this->ID = id;
 }
 
-void Let::setVrijeme_polijetanja(std::string vr_p)
+void Let::setVrijeme_polijetanja(std::string vr_p) noexcept
 {
 	this->vrijeme_polijetanja = vr_p;
 }
 
-void Let::setVrijeme_slijetanja(std::string vr_s)
+void Let::setVrijeme_slijetanja(std::string vr_s) noexcept
 {
 	this->vrijeme_slijetanja = vr_s;
 }
 
-void Let::setDatum(Datum dat)
+void Let::setDatum(Datum dat) noexcept
 {
 	this->datum = dat;
 }
 
-void Let::setDatum(int d, int m, int g)
+void Let::setDatum(int d, int m, int g) noexcept
 {
 	(this->datum).setDan(d);
 	(this->datum).setMjesec(m);
 	(this->datum).setGodina(g);
 }
 
-void Let::setOpis(std::string op)
+void Let::setOpis(std::string op) noexcept
 {
 	this->opis = op;
 }
 
-void Let::setBr_mjesta(int br1)
+void Let::setBr_mjesta(int br1) noexcept
 {
 	this->br_mjesta = br1;
 }
 
-void Let::setBr_slobodnih_mjesta(int br2)
+void Let::setBr_slobodnih_mjesta(int br2) noexcept
 {
 	this->br_slobodnih_mjesta = br2;
 }
 
 
 // Ucitava podatke o letu iz fajla i dodjeljuje vrijednosti proslijedjenom objektu (this)
-void Let::ucitajLet(ifstream& file)
+void Let::ucitajLet(ifstream& file) noexcept
 {
 
 	string t_ID;
@@ -132,7 +132,7 @@ void Let::ucitajLet(ifstream& file)
 
 
 // Ispisuje jedan let u formatiranom obliku
-void Let::ispisi_let() const
+void Let::ispisi_let() const noexcept
 {
 	cout << " " << setw(7) << left << this->getID();
 	cout << setw(24) << left << this->getVrijeme_polijetanja();
@@ -143,7 +143,7 @@ void Let::ispisi_let() const
 	cout << this->getBr_slobodnih_mjesta() << endl;
 }
 
-std::istream& operator>>(std::istream& is, Let& l) {
+std::istream& operator>>(std::istream& is, Let& l) noexcept {
 	std::cout << "Unesite ID leta: " << std::endl;
 	is >> l.ID;
 	std::cout << "Unesite vrijeme polijetanja: " << std::endl;
@@ -161,7 +161,7 @@ std::istream& operator>>(std::istream& is, Let& l) {
 	return is;
 }
 
-std::ostream& operator<<(std::ofstream& ofs, const Let& l) {
+std::ostream& operator<<(std::ofstream& ofs, const Let& l) noexcept {
 	ofs << l.ID << ',' << l.vrijeme_polijetanja << ',' << l.vrijeme_slijetanja << ','
 		<< l.datum << ',' << l.opis << ',' << l.br_mjesta << ',' << l.br_slobodnih_mjesta << std::endl;
 	return ofs;

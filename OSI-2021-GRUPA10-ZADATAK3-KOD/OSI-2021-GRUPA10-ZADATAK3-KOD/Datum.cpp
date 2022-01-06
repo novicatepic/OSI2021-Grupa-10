@@ -70,7 +70,7 @@ bool korektanDatum(int dan, int mjesec, int godina) {
 }
 
 
-bool prestupnaGodina(int godina)
+bool prestupnaGodina(int godina) noexcept
 {
 	if (godina % 100 != 0 && godina % 4 == 0 || godina % 400 == 0)
 		return true;
@@ -87,14 +87,18 @@ int vratiKolikoDanaImaMjesec(int mjesec, int godina) {
 	case 8:
 	case 10:
 	case 12:
+	{
 		return 31;
 		break;
+	}
 	case 4:
 	case 6:
 	case 9:
 	case 11:
+	{
 		return 30;
 		break;
+	}
 	case 2:
 		if (prestupnaGodina(godina))
 			return 29;
@@ -102,7 +106,11 @@ int vratiKolikoDanaImaMjesec(int mjesec, int godina) {
 			return 28;
 		break;
 	default:
+	{
+		throw std::exception("Nepravilan unos mjeseca (u funkciji vratiKolikoDanaImaMjesec)! ");
 		break;
+	}
+
 	}
 }
 
@@ -115,8 +123,11 @@ void unosMjesecaIGodine(Datum& d)
 
 	std::cout << "Unesite mjesec: " << std::endl;
 	std::cin >> mj; d.setMjesec(mj);
+	if (d.getMjesec() > 12 || d.getMjesec() < 1) throw std::exception("Pogressan unos mjeseca!");
 
 	std::cout << "Unesite godinu: " << std::endl;
 	std::cin >> god; d.setGodina(god);
+
+	if (d.getGodina() < 1800) throw std::exception("Pogresan unos godine!");
 }
 

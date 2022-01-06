@@ -12,25 +12,25 @@ private:
 	int dan;
 	int mjesec;
 	int godina;
-
+	
 public:
 	Datum(int dan = 0, int mjesec = 0, int godina = 0) : dan(dan), mjesec(mjesec), godina(godina) {}
 
-	int getDan() const {
+	int getDan() const noexcept {
 		return this->dan;
 	}
 
-	int getMjesec() const {
+	int getMjesec() const noexcept{
 		return this->mjesec;
 	}
 
-	int getGodina() const {
+	int getGodina() const noexcept{
 		return this->godina;
 	}
 
-	void setDan(int d) { this->dan = d; }
-	void setMjesec(int m) { this->mjesec = m; }
-	void setGodina(int g) { this->godina = g; }
+	void setDan(int d) noexcept { this->dan = d; }
+	void setMjesec(int m) noexcept { this->mjesec = m; }
+	void setGodina(int g) noexcept { this->godina = g; }
 
 	friend std::istream& operator>>(std::ifstream& ifs, Datum& d) {
 		char delim = '.';
@@ -123,7 +123,7 @@ public:
 
 bool korektanDatum(int dan, int mjesec, int godina);
 
-bool prestupnaGodina(int godina);
+bool prestupnaGodina (int godina) noexcept;
 
 int vratiKolikoDanaImaMjesec(int mjesec, int godina);
 
