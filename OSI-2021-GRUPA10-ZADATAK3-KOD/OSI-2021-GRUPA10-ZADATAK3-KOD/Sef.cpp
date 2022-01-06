@@ -175,12 +175,8 @@ void Sef::pregledRezervacija()
 
 		if (!file) throw std::exception("Ne mogu otvoriti fajl 'REZERVACIJE' !");
 
-		while (!file.eof())
-		{
-			getline(file, str);
 
-			cout << str << endl;
-		}
+
 
 		file.close();
 	}

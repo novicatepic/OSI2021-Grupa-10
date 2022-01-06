@@ -1,6 +1,9 @@
 #pragma once
 
 
+
+
+
 #include <exception>
 #include <fstream>		
 #include <string>		
@@ -11,7 +14,7 @@
 
 
 #define ZAVRSENI_LETOVI_FILEPATH  "./LETOVI/ZAVRSENI_LETOVI.txt"
-#define REZERVACIJE_FILEPATH	  "./LETOVI/REZERVACIJE.txt"
+#define REZERVACIJE_FILEPATH	  "./REZERVACIJE"
 
 
 class Let;
