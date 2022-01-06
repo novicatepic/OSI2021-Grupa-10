@@ -176,14 +176,7 @@ void Sef::pregledRezervacija()
 		if (!file) throw std::exception("Ne mogu otvoriti fajl 'REZERVACIJE' !");
 
 
-		/*
-		 // Ako bih htio da na osnovu ID leta koji se nalazi u fajlu REZERVACIJE pronadjem taj let u fajlu LETOVI pa da ispisem njegove podatke
-		 // to bi bilo ekstremno neefikasno.
-		
-		...
-		
 
-		*/
 
 		file.close();
 	}
