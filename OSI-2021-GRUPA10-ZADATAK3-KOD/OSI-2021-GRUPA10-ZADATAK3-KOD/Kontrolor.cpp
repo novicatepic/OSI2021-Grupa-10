@@ -3,13 +3,13 @@
 #include "Datum.h"
 #include <stdio.h>
 
-//Funkcija radi i testirana 
+//FUNKCIJA ZA KREIRANJE LETOVA
 void Kontrolor::kreiraj_let()
 {
 
 	try
 	{
-		auto fileRaspored = std::ofstream(LETOVI_FILEPATH, std::ios::app);
+		auto fileRaspored = std::ofstream(RASPORED_FILEPATH, std::ios::app);
 		if (!fileRaspored) throw std::exception("Fajl za 'RASPORED'nije otvoren");
 		else
 		{
@@ -21,7 +21,7 @@ void Kontrolor::kreiraj_let()
 			else
 			{
 
-				fileLet << " | ID | Vrijeme polijetanja | Vrijeme slijetanja | Datum polaska | Rut | Ukupan broj mjesta | Broj slobodnih mjesta | " << std::endl;
+				
 				fileLet << let;
 			}
 
@@ -39,24 +39,28 @@ void Kontrolor::kreiraj_let()
 	}
 
 }
-//Treba malo izmjene!
+//FUNKCIJA ZA PROMJENU STATUSA LETA
 bool Kontrolor::promjenaStatusa(std::string id)
 {
 
 	try
 	{
+		int index = 0;
+		Let* letovi = new Let[100];
+		std::cout << "Unesi ID leta za projemnu statusa:";
+		std::cin >> id;
 		auto ucitaj = std::ifstream("./LETOVI/RASPORED.txt", std::ios::in);
 		if (!ucitaj) throw std::exception("Fajl nije ucitan!");
 		else
 		{
-			Let temp_let;
+			
 			std::string noviStatus;
 
-			while (!ucitaj.eof())
+			while (ucitaj.peek() != EOF)
 			{
 
-				temp_let.ucitajLet(ucitaj);
-				if (temp_let.getID() < 0)//treba izmjeniti ovaj uslov-stavljen samo radi testa
+				letovi[index].ucitajLet(ucitaj);
+				if (letovi[index].getID() < 0)//treba izmjeniti ovaj uslov-stavljen samo radi testa
 				{
 
 					break;
@@ -65,30 +69,41 @@ bool Kontrolor::promjenaStatusa(std::string id)
 
 				}
 
-				if (temp_let.getID() == stoi(id))
+				if (letovi[index].getID() == stoi(id))
 				{
-					auto pisi = std::ofstream("./LETOVI/let_" + id + "temp.txt", std::ios::out | std::ios::app);
+					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI-LETOVI.txt", std::ios::out | std::ios::app);
+					auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
 					std::cout << "Unesi novi status leta: ";
 					std::cin >> noviStatus;
-					if (pisi)
+					if (pisi && pisi2)
 					{
-						temp_let.setStatus(noviStatus);
-						pisi << temp_let;;
-						return true;
-						pisi.close();
+						letovi[index].setStatus(noviStatus);
+						if (letovi[index].getStatus() == "Sletio")
+						{
+							pisi2 << letovi[index];
+							std::cout << "Status leta promjenjen! " << std::endl;;
+							return  true;
+							pisi2.close();
+						}
+						else
+						{
+							pisi << letovi[index];
+							std::cout << "Status leta promjenjen! " << std::endl;;
+							return true;
+							pisi.close();
+						}
 					}
+					++index;
 				}
-
-
-
+				else
+				{
+					++index;
+				}
 			}
 
 			ucitaj.close();
-			//remove("./LETOVI/let_"+id+".txt");//treba staviti da putanja bude ista kao i kod otvaranja ali funkcije remove i rename ne priznaju!
-			//rename("./LETOVI/let_1.txt", "./LETOVI/let_1temp.txt");
-
 		}
-
+		delete[] letovi;
 
 	}
 
@@ -96,47 +111,59 @@ bool Kontrolor::promjenaStatusa(std::string id)
 	{
 		std::cout << e.what() << ::endl;
 	}
-
-
 }
-//Treba dovrsiti za ponovni upis u fajl
+//FUNKCIJA ZA SORITRANJE RASPOREDA
 void Kontrolor::sortiranjeRasporeda()
 {
-	try
+	ifstream file;
+	int index = 0;
+	int numLine = 0;
+	string line;
+	Let* letovi = new Let[100];
+	file.open("./LETOVI/RASPORED.txt", std::ios::in);
+	if (file)
 	{
-		ifstream file;
-		file.open("./LETOVI/TEMP_RASPORED.txt", std::ios::in);
-		if (!file) throw std::exception("Fajl nije otvoren!");
-
-		std::vector<Let> letovi;
-		Let temp;
-		while (!file.eof())
+		while (file.peek() != EOF)
 		{
-			temp.ucitajLet(file);
-			letovi.push_back(temp);
+			letovi[index].ucitajLet(file);
+			index++;
 		}
-		for (const auto& let : letovi)
+		file.close();
+		for (int i = 0; i < index - 1; ++i)
 		{
-
-
+			for (int j = i + 1; j < index; j++)
+			{
+				if (letovi[j].getDatum() >= letovi[i].getDatum())
+				{
+					Let temp = letovi[j];
+					letovi[j] = letovi[i];
+					letovi[i] = temp;
+				}
+			}
 		}
+		auto pisi = std::ofstream("./LETOVI/NOVI_RASPORED.txt", std::ios::app | std::ios::out);
+		for (int i = 0; i < index; ++i)
+		{
+			pisi << letovi[i];
+		}
+		pisi.close();
+	}
 
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+	remove("./LETOVI/RASPORED.txt");
+	rename("./LETOVI/NOVI_RASPORED.txt", "./LETOVI/RASPORED.txt");
+	delete[] letovi;
+	std::cout << "Raspored soritan po datumu!" << std::endl;
 
 }
-//Funkcija testirana i radi
+//FUNKCIJA ZA PREGLED SVIH LETOVIA
 void Kontrolor::pregledInformacijaOLetovima() const
 {
 	try
 	{
-		std::cout << "Pregled svih letova!" << std::endl;
+		std::cout << "PREGLED RASPOREDA LETOVA" << std::endl;
 		fstream file;
 		string str;
-		file.open(LETOVI_FILEPATH, std::ios::in);
+		file.open(RASPORED_FILEPATH, std::ios::in);
 		if (!file) throw std::exception("Ne moze se otvoriti fajl 'LETOVI'");
 		{
 			while (!file.eof())
@@ -146,6 +173,7 @@ void Kontrolor::pregledInformacijaOLetovima() const
 			}
 		}
 		file.close();
+	
 	}
 	catch (const std::exception& e)
 	{
@@ -155,63 +183,54 @@ void Kontrolor::pregledInformacijaOLetovima() const
 
 
 }
-//Nedovrsnena funkcija
+//FUNKCIJA ZA OTKAZIVANJE LETA
 void Kontrolor::otkazivanjeLeta()
 {
 	try
-	{
-
-		int ID;
-		std::cout << "Unesi ID leta koji se otkazuje!";
-		std::cin >> ID;
-
-		std::ifstream filein;
-		filein.open("./LETOVI/RASPORED.txt", std::ios::in);
-		if (filein)
 		{
-			Let* l = new Let;
-			while (!filein.eof())
-			{
-				l = new Let;
 
-				l->ucitajLet(filein);
-				if (l->getID() == ID)
+			string ID;
+			int index = 0;
+			std::cout << "Unesi ID leta koji se otkazuje!";
+			std::cin >> ID;
+			std::ifstream file;
+			Let* letovi = new Let[100];
+			file.open("./LETOVI/RASPORED.txt", std::ios::in);
+			if (file)
+			{
+
+				while (file.peek() != EOF)
 				{
-					l->ispisi_let();
-
+					letovi[index].ucitajLet(file);
+					++index;
 				}
-				break;
 			}
-			filein.close();
-
-			if (l->getID() == 0)
-			{
-				auto citanje = ifstream("./LETOVI/RASPORED.txt", std::ios::in);
-				auto upis = ofstream("./LETOVI/NOVIRASPORED.txt", std::ios::out | std::ios::app);
-
-				if (citanje) {
-
-					while (!citanje.eof())
+				file.close();
+				for (int i = 0; i < index; i++)
+				{
+					if (letovi[i].getID() != stoi(ID))
 					{
-						Let* let = new Let;
-						let->ucitajLet(citanje);
-						if (l->getID() != let->getID())
-							upis << let;
+						auto upis = ofstream("./LETOVI/NOVIRASPORED.txt", std::ios::out | std::ios::app);
+
+						if (upis) {
+							upis << letovi[i];
+						}
 					}
-					citanje.close();
-					upis.close();
-					remove("./LETOVI/RASPORED.txt");
-					rename("./LETOVI/NOVIRASPORED.txt", "./LETOVI/RASPORED.txt");
-
 				}
-			}
-			std::cout << "Let sa ID:", l->getID(), "uspjesno izbrisan!";
-
+				std::string fileName= "./LETOVI/let_"+ID+".txt";
+				int result=remove(fileName.c_str());
+				if (result == 0)
+					std::cout << "Let za izabrani ID=" << ID << " je uspjesno otkazan! ";
+				else
+					std::cout << "Let za izabrani ID=" << ID << " nije otkazan! ";
+			remove("./LETOVI/RASPORED.txt");
+			rename("./LETOVI/NOVIRASPORED.txt", "./LETOVI/RASPORED.txt");
+			delete[] letovi;
 		}
-	}
-	catch (const exception& e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+		catch (const exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 
 }
+

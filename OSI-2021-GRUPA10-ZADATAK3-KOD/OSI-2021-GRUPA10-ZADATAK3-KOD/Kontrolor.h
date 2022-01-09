@@ -11,8 +11,8 @@
 
 class Let;
 namespace fs = std::filesystem;
-#define LETOVI_FILEPATH "./LETOVI/RASPORED.txt"
-#define REZERVACIJE_FILEPATH "./REZERVACIJE/"
+#define RASPORED_FILEPATH "./LETOVI/RASPORED.txt"
+#define SORTIRANI_FILEPATH "./LETOVI/SORTIRANI_RASPORED"
 
 
 class Kontrolor :virtual public Radnik
