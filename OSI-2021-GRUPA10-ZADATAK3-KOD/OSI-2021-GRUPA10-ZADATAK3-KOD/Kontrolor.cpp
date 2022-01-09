@@ -40,11 +40,12 @@ void Kontrolor::kreiraj_let()
 
 }
 //FUNKCIJA ZA PROMJENU STATUSA LETA
-bool Kontrolor::promjenaStatusa(std::string id)
+bool Kontrolor::promjenaStatusa()
 {
 
 	try
 	{
+		std::string id;
 		int index = 0;
 		Let* letovi = new Let[100];
 		std::cout << "Unesi ID leta za projemnu statusa:";

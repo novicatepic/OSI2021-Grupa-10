@@ -21,7 +21,7 @@ private:
 public:
     Kontrolor(std::string name, std::string pass) : Radnik(name, pass, "Kontrolor") {}
     void kreiraj_let();
-    bool promjenaStatusa(std::string);
+    bool promjenaStatusa();
     void sortiranjeRasporeda();
     void pregledInformacijaOLetovima() const;
     void otkazivanjeLeta();
