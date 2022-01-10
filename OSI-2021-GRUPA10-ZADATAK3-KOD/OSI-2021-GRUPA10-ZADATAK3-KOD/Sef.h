@@ -5,12 +5,14 @@
 
 
 #include <exception>
-#include <fstream>		
+#include <fstream>
+#include <iostream>
 #include <string>		
-
+#include <filesystem>
 
 #include "Radnik.h"
 #include "Datum.h"
+
 
 
 #define ZAVRSENI_LETOVI_FILEPATH  "./LETOVI/ZAVRSENI_LETOVI.txt"
@@ -19,19 +21,19 @@
 
 class Let;
 
-using namespace std;
 
 
 
 class Sef : virtual public Radnik
 {
 public:
-	Sef(string username, string pass) : Radnik(username, pass, "Sef") {}
+	Sef(std::string username, std::string pass) : Radnik(username, pass, "Sef") {}
 	
 
 	// Nudi opciju da se izabere dnevni, sedmicni ili mjesecni pregled pa ispise letove u skladu sa izborom
 	void pregledZavrsenihLetova();
 
+	// Ispise sve rezervacije (nazive fajlova u REZERVACIJE)
 	void pregledRezervacija();
 
 private:
