@@ -204,7 +204,7 @@ std::ostream& operator<<(std::ofstream& ofs, const Let& l) {
 
 
 
-bool Let::pomocZaOperatera(std::string id) {
+bool pomocZaOperatera(std::string id) {
 	auto otvori = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
 	try {
 		if (!otvori) {
@@ -214,8 +214,8 @@ bool Let::pomocZaOperatera(std::string id) {
 			Let l;
 			otvori >> l;
 			otvori.close();
-			if (l.br_slobodnih_mjesta >= 1) { //FALI JOS USLOV AKO MIRUJE 
-				l.br_slobodnih_mjesta -= 1;
+			if (l.getBr_slobodnih_mjesta() >= 1) { //FALI JOS USLOV AKO MIRUJE 
+				l.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta() - 1);
 				auto promijeni = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
 				if (promijeni) {
 					promijeni << l;
