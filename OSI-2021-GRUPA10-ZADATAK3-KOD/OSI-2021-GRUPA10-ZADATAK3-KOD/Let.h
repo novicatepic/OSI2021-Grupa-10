@@ -60,5 +60,5 @@ public:
 
 
 
-	bool pomocZaOperatera(std::string id);
+	//bool pomocZaOperatera(std::string id);
 };

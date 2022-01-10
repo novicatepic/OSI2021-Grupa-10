@@ -66,25 +66,32 @@ void Operater::obradaRezervacije()
     fajlRezervacije >> idLeta;
     fajlRezervacije.close();
 
-    std::cout << idLeta << std::endl;
+
+    //std::cout << idLeta << std::endl;   //provjera da li se id ucitao
 
 
     //ime rezervacije se unosi onako kako pise u ispisu!, a u folder se rucno dodaju bez ekstenzije!!!
     std::cout << "odobri/odbij/ostavi :"; std::cin >> odgovor;
     if (odgovor == "odobri")
     {
-        fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije + ".txt", std::ios::app);
-        fajlRezervacije << this->getIme();
-        fajlRezervacije.close();
+        if (pomocZaOperatera(idLeta))
+        {
 
-        std::string command = "move rezervacije\\"
-            + nazivRezervacije +
-            " rezervacije\\odobrene_rezervacije";
+            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije + ".txt", std::ios::app);
+            fajlRezervacije << this->getIme();
+            fajlRezervacije.close();
 
-        std::system(command.c_str());
+            std::string command = "move rezervacije\\"
+                + nazivRezervacije +
+                " rezervacije\\odobrene_rezervacije";
 
-        std::cout << "rezervacija uspjesno odobrena!" << std::endl;
+            std::system(command.c_str());
 
+            std::cout << "rezervacija uspjesno odobrena!" << std::endl;
+        }
+        else {
+            std::cout << "let ne postoji!!!" << std::endl;
+        }
     }
     else if (odgovor == "odbij")
     {
