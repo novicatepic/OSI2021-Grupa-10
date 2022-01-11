@@ -110,7 +110,7 @@ bool Kontrolor::promjenaStatusa()
 							auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
 							fs::remove(filePath);
 							//remove(kopirajNaziv);
-							sortiranjeRasporeda();
+							sortiranjeRasporeda("ZAVRSENI_LETOVI");
 							return  true;
 						}
 						else if (letovi[index].getStatus() == "Poletio" || letovi[index].getStatus() == "Leti") {
@@ -127,6 +127,7 @@ bool Kontrolor::promjenaStatusa()
 								std::cout << "Status leta promijenjen na leti!" << std::endl;
 							}
 							pisi.close();
+							sortiranjeRasporeda("RASPORED_AKTIVNI_LETOVI");
 							return true;
 						}
 						else
@@ -159,14 +160,13 @@ bool Kontrolor::promjenaStatusa()
 	}
 }
 //FUNKCIJA ZA SORTIRANJE RASPOREDA
-void Kontrolor::sortiranjeRasporeda()
+void Kontrolor::sortiranjeRasporeda(std::string nazivFajla)
 {
 	ifstream file;
 	int index = 0;
-	int numLine = 0;
 	string line;
 	Let* letovi = new Let[100];
-	file.open("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::in);
+	file.open("./LETOVI/"+nazivFajla+".txt", std::ios::in);
 	if (file)
 	{
 		while (file.peek() != EOF)
@@ -187,7 +187,7 @@ void Kontrolor::sortiranjeRasporeda()
 				}
 			}
 		}
-		auto pisi = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out);
+		auto pisi = std::ofstream("./LETOVI/"+nazivFajla+".txt", std::ios::out);
 		for (int i = 0; i < index; ++i)
 		{
 			pisi << letovi[i];
