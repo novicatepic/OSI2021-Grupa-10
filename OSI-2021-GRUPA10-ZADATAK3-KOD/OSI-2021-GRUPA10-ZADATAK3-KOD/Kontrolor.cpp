@@ -2,6 +2,7 @@
 #include "Let.h"
 #include "Datum.h"
 #include <stdio.h>
+#include <filesystem>
 
 //FUNKCIJA ZA KREIRANJE LETOVA
 void Kontrolor::kreiraj_let()
@@ -76,7 +77,7 @@ bool Kontrolor::promjenaStatusa()
 				{
 					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI-LETOVI.txt", std::ios::out | std::ios::app);
 					auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
-					std::cout << "Unesi novi status leta: ";
+					std::cout << "Unesi novi status leta: Sletio/Poletio/Leti" << std::endl;
 					std::cin >> noviStatus;
 					if (pisi && pisi2)
 					{
@@ -84,16 +85,38 @@ bool Kontrolor::promjenaStatusa()
 						if (letovi[index].getStatus() == "Sletio")
 						{
 							pisi2 << letovi[index];
-							std::cout << "Status leta promijenjen! " << std::endl;;
-							return  true;
+							std::cout << "Status leta promijenjen na sletio! " << std::endl;
 							pisi2.close();
+							std::string nazivFajla = "./LETOVI" + id + ".txt";
+
+							namespace fs = std::filesystem;
+							fs::path path = std::filesystem::current_path();
+							fs::path exampleSubfolderPath = path / "./LETOVI";
+							auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
+							fs::remove(filePath);
+							//remove(kopirajNaziv);
+							return  true;
+						}
+						else if (letovi[index].getStatus() == "Poletio" || letovi[index].getStatus() == "Leti") {
+							//SAMO PROMIJENITI U .TXT FAJLU LETA DA JE POLETIO
+							pisi << letovi[index];
+							if (letovi[index].getStatus() == "Poletio") {
+								std::cout << "Status leta promijenjen na poletio!" << std::endl;
+							}
+							else {
+								std::cout << "Status leta promijenjen na leti!" << std::endl;
+							}
+							pisi.close();
+							return true;
 						}
 						else
 						{
-							pisi << letovi[index];
-							std::cout << "Status leta promijenjen! " << std::endl;;
-							return true;
+							//OVDJE TREBA ISPISATI GRESKU!!!!!
+							//pisi << letovi[index];
+							//std::cout << "Status leta promijenjen! " << std::endl;
+							std::cout << "Neispravan izbor opcije!" << std::endl;
 							pisi.close();
+							return true;
 						}
 					}
 					++index;
@@ -115,7 +138,7 @@ bool Kontrolor::promjenaStatusa()
 		std::cout << e.what() << ::endl;
 	}
 }
-//FUNKCIJA ZA SORITRANJE RASPOREDA
+//FUNKCIJA ZA SORTIRANJE RASPOREDA
 void Kontrolor::sortiranjeRasporeda()
 {
 	ifstream file;
