@@ -12,17 +12,18 @@ void Sef::pregledZavrsenihLetova()
 {
 	try {
 
-		char izbor;
+		std::string izbor;
 		Datum datum;
 
 		cout << "Unesite zeljenu opciju: "<< endl;
-		cout << "Dnevni prikaz   (prikaz svih letova koji su zavrseni na dan koji cete unijeti)                  - unesite 'd' " << endl;
-		cout << "Sedmicni prikaz (prikaz svih letova u periodu od 7 dana, pocevsi od datuma kojeg cete unijeti)  - unesite 's' " << endl;
-		cout << "Mjesecni prikaz (prikaz svih letova zavrsenih u mjesecu kojeg cete unijeti)                     - unesite 'm' " << endl;
+		cout << "Dnevni prikaz   (prikaz svih letova koji su zavrseni na dan koji cete unijeti)                  - unesite '--daily' " << endl;
+		cout << "Sedmicni prikaz (prikaz svih letova u periodu od 7 dana, pocevsi od datuma kojeg cete unijeti)  - unesite '--weekly' " << endl;
+		cout << "Mjesecni prikaz (prikaz svih letova zavrsenih u mjesecu kojeg cete unijeti)                     - unesite '--monthly' " << endl;
 
-		cin >> izbor;
+		//cin >> izbor;
+		std::getline(std::cin, izbor, '\n');
 
-		if (izbor == 'd')
+		if (izbor == "--daily")
 		{
 
 			cout << "-- Unos datuma -- " << endl; cin >> datum;
@@ -31,7 +32,7 @@ void Sef::pregledZavrsenihLetova()
 			this->pregledZavrsenihLetovaDnevno(datum);
 
 		}
-		else if (izbor == 's')
+		else if (izbor == "--weekly")
 		{
 
 			cout << "-- Unos datuma (pocetak sedmice) -- " << endl; cin >> datum;
@@ -40,7 +41,7 @@ void Sef::pregledZavrsenihLetova()
 			this->pregledZavrsenihLetovaSedmicno(datum);
 			
 		}
-		else if (izbor == 'm')
+		else if (izbor == "--monthly")
 		{
 
 			cout << "-- Unos datuma -- " << endl;  unosMjesecaIGodine(datum);

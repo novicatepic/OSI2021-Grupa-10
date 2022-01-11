@@ -5,6 +5,36 @@
 #include "Operater.h"
 namespace fs = std::filesystem;
 
+bool pomocZaOperatera(std::string id) {
+    auto otvori = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
+    try {
+        if (!otvori) {
+            throw std::exception("Ne postoji let sa datim ID!");
+        }
+        else {
+            Let l;
+            l.ucitajLet(otvori);
+            otvori.close();
+            if (l.getBr_slobodnih_mjesta() >= 1) { //FALI JOS USLOV AKO MIRUJE 
+                l.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta() - 1);
+                auto promijeni = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
+                if (promijeni) {
+                    promijeni << l;
+                    promijeni.close();
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        std::cout << e.what();
+        return false;
+    }
+}
+
 Operater::Operater(std::string username, std::string password)
 {
     this->korisnickoIme = username;
@@ -33,19 +63,19 @@ void Operater::ispisSvihLetova()
 
 void Operater::ispisNeobradjenihRezervacija()
 {
-    std::string command = "dir *.txt /b /a-d rezervacije";
+    std::string command = "dir /b /a-d rezervacije";
     std::system(command.c_str());
 }
 
 void Operater::ispisOdbijenihRezervacija()
 {
-    std::string command = "dir *.txt /b /a-d rezervacije/odbijene_rezervacije";
+    std::string command = "dir /b /a-d REZERVACIJE\\OTKAZANE_REZERVACIJE";
     std::system(command.c_str());
 }
 
 void Operater::ispisOdobrenihRezervacija()
 {
-    std::string command = "dir *.txt /b /a-d rezervacije/odobrene_rezervacije";
+    std::string command = "dir  /b /a-d REZERVACIJE\\ODOBRENE_REZERVACIJE";
     std::system(command.c_str());
 }
 
@@ -62,8 +92,9 @@ void Operater::obradaRezervacije()
 
     std::cout << "Unesite rezervaciju za obradu: "; std::cin >> nazivRezervacije;
 
-    fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije + ".txt", std::ios::in);
+    fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije , std::ios::in);
     fajlRezervacije >> idLeta;
+    std::cout << idLeta;
     fajlRezervacije.close();
 
 
@@ -71,13 +102,17 @@ void Operater::obradaRezervacije()
 
 
     //ime rezervacije se unosi onako kako pise u ispisu!, a u folder se rucno dodaju bez ekstenzije!!!
-    std::cout << "odobri/odbij/ostavi :"; std::cin >> odgovor;
-    if (odgovor == "odobri")
+    std::cout << "--permit za odobravanje rezervacije, --decline za odbijanje rezervacije:" << std::endl; 
+    std::cin.ignore();
+    std::getline(std::cin, odgovor, '\n');
+
+    if (odgovor == "--permit")
     {
         if (pomocZaOperatera(idLeta))
         {
 
-            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije + ".txt", std::ios::app);
+            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije , std::ios::app);
+            fajlRezervacije << std::endl;
             fajlRezervacije << this->getIme();
             fajlRezervacije.close();
 
@@ -90,25 +125,37 @@ void Operater::obradaRezervacije()
             std::cout << "rezervacija uspjesno odobrena!" << std::endl;
         }
         else {
-            std::cout << "let ne postoji!!!" << std::endl;
+            //std::cout << "let ne postoji!!!" << std::endl;
         }
     }
-    else if (odgovor == "odbij")
+    else if (odgovor == "--decline")
     {
-        fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije + ".txt", std::ios::app);
-        fajlRezervacije << this->getIme();
-        fajlRezervacije.close();
+        auto citajFajl = std::ifstream("./REZERVACIJE/" + nazivRezervacije, std::ios::in);
+        if (citajFajl) {
+            citajFajl.close();
 
-        std::string command = "move rezervacije\\"
-            + nazivRezervacije +
-            " rezervacije\\otkazane_rezervacije";
+            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije, std::ios::_Nocreate);
+            fajlRezervacije << std::endl;
+            fajlRezervacije << this->getIme();
+            fajlRezervacije.close();
 
-        std::system(command.c_str());
+            std::string command = "move rezervacije\\"
+                + nazivRezervacije +
+                " rezervacije\\otkazane_rezervacije";
 
-        std::cout << "rezervacija uspjesno otkazana!" << std::endl;
+            std::system(command.c_str());
+
+            std::cout << "rezervacija uspjesno otkazana!" << std::endl;
+
+        }
+
+        else {
+            std::cout << "Rezervacija ne postoji!" << std::endl;
+        }
+
     }
     else
     {
-        std::cout << "obrada rezervacije odlozena!" << std::endl;
+        std::cout << "Neispravan izbor!" << std::endl;
     }
 }

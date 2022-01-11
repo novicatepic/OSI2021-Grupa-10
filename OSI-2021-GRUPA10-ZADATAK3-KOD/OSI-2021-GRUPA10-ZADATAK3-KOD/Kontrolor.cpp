@@ -46,10 +46,12 @@ bool Kontrolor::promjenaStatusa()
 	try
 	{
 		std::string id;
+		std::cin.ignore();
+
 		int index = 0;
 		Let* letovi = new Let[100];
 		std::cout << "Unesi ID leta za projemnu statusa:";
-		std::cin >> id;
+		std::getline(std::cin, id, '\n');
 		auto ucitaj = std::ifstream("./LETOVI/RASPORED.txt", std::ios::in);
 		if (!ucitaj) throw std::exception("Fajl nije ucitan!");
 		else
@@ -70,7 +72,7 @@ bool Kontrolor::promjenaStatusa()
 
 				}
 
-				if (letovi[index].getID() == stoi(id))
+				if (letovi[index].getID() == std::stoi(id))
 				{
 					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI-LETOVI.txt", std::ios::out | std::ios::app);
 					auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
@@ -82,14 +84,14 @@ bool Kontrolor::promjenaStatusa()
 						if (letovi[index].getStatus() == "Sletio")
 						{
 							pisi2 << letovi[index];
-							std::cout << "Status leta promjenjen! " << std::endl;;
+							std::cout << "Status leta promijenjen! " << std::endl;;
 							return  true;
 							pisi2.close();
 						}
 						else
 						{
 							pisi << letovi[index];
-							std::cout << "Status leta promjenjen! " << std::endl;;
+							std::cout << "Status leta promijenjen! " << std::endl;;
 							return true;
 							pisi.close();
 						}
@@ -192,8 +194,10 @@ void Kontrolor::otkazivanjeLeta()
 
 			string ID;
 			int index = 0;
+			std::cin.ignore();
 			std::cout << "Unesi ID leta koji se otkazuje!";
-			std::cin >> ID;
+			std::getline(std::cin, ID, '\n');
+			//std::cin >> ID;
 			std::ifstream file;
 			Let* letovi = new Let[100];
 			file.open("./LETOVI/RASPORED.txt", std::ios::in);
@@ -209,7 +213,7 @@ void Kontrolor::otkazivanjeLeta()
 				file.close();
 				for (int i = 0; i < index; i++)
 				{
-					if (letovi[i].getID() != stoi(ID))
+					if (letovi[i].getID() != std::stoi(ID))
 					{
 						auto upis = ofstream("./LETOVI/NOVIRASPORED.txt", std::ios::out | std::ios::app);
 
@@ -218,7 +222,7 @@ void Kontrolor::otkazivanjeLeta()
 						}
 					}
 				}
-				std::string fileName= "./LETOVI/let_"+ID+".txt";
+				std::string fileName = "./LETOVI/let_" + ID +".txt";
 				int result=remove(fileName.c_str());
 				if (result == 0)
 					std::cout << "Let za izabrani ID=" << ID << " je uspjesno otkazan! ";

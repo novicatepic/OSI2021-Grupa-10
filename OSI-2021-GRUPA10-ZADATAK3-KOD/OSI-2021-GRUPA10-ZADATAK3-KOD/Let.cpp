@@ -4,7 +4,8 @@
 
 #include "Let.h"
 //Dodat jos jedan argument za klasu Let -status i dopunjene sve funkcije!
-
+#include <fstream>
+#include <string>
 
 int Let::getID() const
 {
@@ -158,19 +159,27 @@ void Let::ispisi_let() const
 
 std::istream& operator>>(std::istream& is, Let& l) {
 	std::cout << "Unesite ID leta: " << std::endl;
+	//std::getline(std::cin, l.ID, '\n');
 	is >> l.ID;
+	std::cin.ignore();
 	std::cout << "Unesite vrijeme polijetanja: " << std::endl;
-	is >> l.vrijeme_polijetanja;
+	std::getline(std::cin, l.vrijeme_polijetanja, '\n');
+	//is >> l.vrijeme_polijetanja;
 	std::cout << "Unesite vrijeme slijetanja: " << std::endl;
-	is >> l.vrijeme_slijetanja;
+	std::getline(std::cin, l.vrijeme_slijetanja, '\n');
+	//is >> l.vrijeme_slijetanja;
 	std::cout << "Unesite datum: " << std::endl;
 	is >> l.datum;
+	std::cin.ignore();
 	std::cout << "Unesite opis: " << std::endl;
-	is >> l.opis;
+	std::getline(std::cin, l.opis, '\n');
+	l.status = "spreman";
+	//is >> l.opis;
 	std::cout << "Unesite broj mjesta: " << std::endl;
 	is >> l.br_mjesta;
-	std::cout << "Unesite broj slobodnih mjesta: " << std::endl;
-	is >> l.br_slobodnih_mjesta;
+	//std::cout << "Unesite broj slobodnih mjesta: " << std::endl;
+	//is >> l.br_slobodnih_mjesta;
+	l.br_slobodnih_mjesta = l.br_mjesta;
 	return is;
 }
 
@@ -204,32 +213,3 @@ std::ostream& operator<<(std::ofstream& ofs, const Let& l) {
 
 
 
-bool pomocZaOperatera(std::string id) {
-	auto otvori = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
-	try {
-		if (!otvori) {
-			throw std::exception("Ne postoji let sa datim ID!");
-		}
-		else {
-			Let l;
-			otvori >> l;
-			otvori.close();
-			if (l.getBr_slobodnih_mjesta() >= 1) { //FALI JOS USLOV AKO MIRUJE 
-				l.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta() - 1);
-				auto promijeni = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
-				if (promijeni) {
-					promijeni << l;
-					promijeni.close();
-				}
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what();
-		return false;
-	}
-}

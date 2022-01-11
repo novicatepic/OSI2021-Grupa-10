@@ -47,12 +47,12 @@ void sefPomocnaFunkcija1() {
 	pisiNoveRedove();
 }
 
-void sefPomocnaFunkcija2() {
+/*void sefPomocnaFunkcija2() {
 	std::cout << "Unesite --daily za pregled izvjestaja na dnevnom nivou." << std::endl;
 	std::cout << "Unesite --weekly za pregled izvjestaja na sedmicnom nivou." << std::endl;
 	std::cout << "Unesite --monthly za pregled izvjestaja na mjesecnom nivou." << std::endl;
 	pisiNoveRedove();
-}
+}*/
 
 void kontrolorPomocnaFunkcija() {
 	std::cout << "Unesite --create za kreiranje novog leta." << std::endl;
@@ -184,29 +184,21 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--viewreports") {
-							sefPomocnaFunkcija2();
-							std::string dodatniUnos;
-							std::cin >> dodatniUnos;
-							if (dodatniUnos == "--daily") {
-								//s.pregled_zavrsenih_letova_dnevno();
-							}
-							else if(dodatniUnos == "--weekly") {
-								//s.pregled_zavrsenih_letova_sedmicno();
-							}
-							else if (dodatniUnos == "--monthly") {
-								//s.pregled_zavrsenih_letova_mjesecno();
-							}
-							else {
+							s.pregledZavrsenihLetova();
+							//sefPomocnaFunkcija2();
+							//std::string dodatniUnos;
+							//std::cin >> dodatniUnos;
+							/*else {
 								pomocZaBiloKojuKlasuRadnika();
 								std::string pomoc;
 								std::cin >> pomoc;
 								if (pomoc == "--doc" || pomoc == "-d") {
 									sefPomocnaFunkcija1();
 								}
-							}
+							}*/
 						}
 						else if (opcija == "--viewreservations") {
-							//s.pregled_rezervacija();
+							s.pregledRezervacija();
 						}
 						else if (opcija == "-logout") {
 							//OVDJE SE NE RADI NISTA, CISTO DA SE NE UDJE U ELSE 
@@ -232,24 +224,17 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--viewreservations") {
-
+							o.ispisNeobradjenihRezervacija();
 						}
 						else if (opcija == "--view") {
-
+							std::cout << "Ispis odobrenih rezervacija: " << std::endl;
+							o.ispisOdobrenihRezervacija();
+							std::cout << "Ispis odbijenih rezervacija: " << std::endl;
+							o.ispisOdbijenihRezervacija();
 						}
 						else if (opcija == "--viewspecific") {
-							operaterPomocnaFunkcija2();
-							std::string dodatniUnos;
-							std::cin >> dodatniUnos;
-							if (dodatniUnos == "--permit") {
-
-							}
-							else if (dodatniUnos == "--decline") {
-
-							}
-							else {
-								//NE RADI SE NISTA OVDJE
-							}
+							//operaterPomocnaFunkcija2();
+							o.obradaRezervacije();
 						}
 						else if (opcija == "--logout") {
 
@@ -275,16 +260,17 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--create") {
-
+							//RADI, ALI TREBA DORADITI OPIS, DA SE NE UNOSI BROJ SLOBODNIH MJESTA, PROVJERITI VRIJEME
+							k.kreiraj_let();
 						}
 						else if (opcija == "--decline") {
-
+							k.otkazivanjeLeta();
 						}
 						else if (opcija == "--view") {
-
+							k.pregledInformacijaOLetovima();
 						}
 						else if (opcija == "--change") {
-
+							k.promjenaStatusa();
 						}
 						else if (opcija == "-logout") {
 
