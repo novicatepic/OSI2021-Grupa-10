@@ -28,4 +28,5 @@ public:
 
 private:
     bool postojiLiLet(int ime) const;
+    void promijeniOperatera(std::string id) const;
 };

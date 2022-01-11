@@ -5,7 +5,8 @@
 
 class Administrator :virtual public Radnik {
 private:
-
+	int br_sefova;
+	int br_administratora;
 public:
 	Administrator(std::string korisnickoIme, std::string lozinka);
 	void dodajRadnika();

@@ -4,7 +4,23 @@
 #include <iostream>
 #include <stdio.h>
 
-Administrator::Administrator(std::string korisnickoIme, std::string lozinka) : Radnik(korisnickoIme, lozinka, "Administrator") {}
+Administrator::Administrator(std::string korisnickoIme, std::string lozinka) : Radnik(korisnickoIme, lozinka, "Administrator") {
+	auto citaj = std::ifstream("config.txt", std::ios::in);
+	if (citaj) {
+		std::string temp;
+		std::getline(citaj, temp, '\n');
+		std::getline(citaj, temp, '\n');
+		std::getline(citaj, temp, '=');
+		std::getline(citaj, temp, '\n');
+		this->br_administratora = std::stoi(temp);
+		std::getline(citaj, temp, '=');
+		std::getline(citaj, temp, '\n');
+		this->br_sefova = std::stoi(temp);
+		//std::cout << br_administratora << std::endl;
+		//std::cout << br_sefova;
+		citaj.close();
+	}
+}
 
 
 void Administrator::dodajRadnika() {
@@ -27,12 +43,12 @@ void Administrator::dodajRadnika() {
 				&& radnoMjesto != "Operater"));
 
 			if (radnoMjesto == "Administrator") {
-				if (kolikoAdministratora() >= 2) {
+				if (kolikoAdministratora() >= br_administratora) {
 					throw std::exception("-Dozvoljeno maksinalno 2 administratora u sistemu!-");
 				}
 			}
 			else if (radnoMjesto == "Sef") {
-				if (kolikoSefova() >= 3) {
+				if (kolikoSefova() >= br_sefova) {
 					throw std::exception("-Dozvoljeno maksimalno 3 sefa u sistemu!-");
 				}
 			}

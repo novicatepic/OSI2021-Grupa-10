@@ -263,7 +263,7 @@ void Kontrolor::otkazivanjeLeta()
 				{
 					if (letovi[i].getID() != std::stoi(ID))
 					{
-						auto upis = ofstream("./LETOVI/NOVIRASPORED.txt", std::ios::out | std::ios::app);
+						auto upis = ofstream("./LETOVI/RASPORED.txt", std::ios::out | std::ios::app);
 
 						if (upis) {
 							upis << letovi[i];
@@ -272,12 +272,18 @@ void Kontrolor::otkazivanjeLeta()
 				}
 				std::string fileName = "./LETOVI/let_" + ID +".txt";
 				int result=remove(fileName.c_str());
-				if (result == 0)
+				if (result == 0) {
 					std::cout << "Let za izabrani ID=" << ID << " je uspjesno otkazan! ";
-				else
+					promijeniOperatera(ID);
+				}
+					
+				else {
 					std::cout << "Let za izabrani ID=" << ID << " nije otkazan! ";
-			remove("./LETOVI/RASPORED.txt");
-			rename("./LETOVI/NOVIRASPORED.txt", "./LETOVI/RASPORED.txt");
+				}
+
+
+			//remove("./LETOVI/RASPORED.txt");
+			//rename("./LETOVI/NOVIRASPORED.txt", "./LETOVI/RASPORED.txt");
 			delete[] letovi;
 		}
 		catch (const exception& e)
@@ -303,5 +309,72 @@ bool Kontrolor::postojiLiLet(int ime) const {
 	}
 
 	return false;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Kontrolor::promijeniOperatera(std::string id) const {
+
+	namespace fs = std::filesystem;
+	fs::path path = std::filesystem::current_path();
+
+	fs::path subFolder = path / "REZERVACIJE";
+
+	for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE")) {
+		if (entry.path().filename() != "ODOBRENE_REZERVACIJE" && entry.path().filename() != "OTKAZANE_REZERVACIJE") {
+			
+			std::string a = entry.path().filename().string();
+
+			//a = a.substr(1, a.size() - 2);
+
+			//std::string b = entry.path;
+
+			auto citaj = std::ifstream("./REZERVACIJE/" + a, std::ios::in);
+
+			//std::cout << a;
+			//std::cout << entry.path().filename() << std::endl;
+			if (citaj) {
+				std::string pomocniString;
+				std::getline(citaj, pomocniString, '\n');
+				if (pomocniString == id) {
+					//auto putanja = subFolder / ("")
+					citaj.close();
+					fs::remove("./REZERVACIJE/" + a);
+				}
+				citaj.close();
+			}
+		}
+	}
 
 }
