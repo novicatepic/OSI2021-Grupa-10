@@ -26,5 +26,6 @@ public:
     void pregledInformacijaOLetovima() const;
     void otkazivanjeLeta();
 
-
+private:
+    bool postojiLiLet(int ime) const;
 };

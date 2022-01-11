@@ -16,6 +16,21 @@ void Kontrolor::kreiraj_let()
 		{
 			Let let;
 			cin >> let;
+			if (postojiLiLet(let.getID())) {
+				throw std::exception("Let postoji u sistemu, ne moze se unijeti!");
+			}
+			char s1 = let.getVrijeme_polijetanja()[0];
+			char s2 = let.getVrijeme_polijetanja()[1];
+			char s3 = let.getVrijeme_polijetanja()[3];
+			char s4 = let.getVrijeme_polijetanja()[4];
+
+			std::string ccat1 = std::to_string(s1) + std::to_string(s2);
+			std::string ccat2 = std::to_string(s3) + std::to_string(s4);
+
+			if (s1 < '0' || s1 > '2' || s2 < '0' || s2 > '9' || s3 < '0' || s3 >= '6' || s4 < '0' || s4 > '9') {
+				throw std::exception("Vrijeme neispravno uneseno!");
+			}
+
 			string id = to_string(let.getID());
 			auto fileLet = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::app);
 			if (!fileLet) throw std::exception("Fajl za 'let'nije otvoren");
@@ -75,7 +90,7 @@ bool Kontrolor::promjenaStatusa()
 
 				if (letovi[index].getID() == std::stoi(id))
 				{
-					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI-LETOVI.txt", std::ios::out | std::ios::app);
+					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
 					auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
 					std::cout << "Unesi novi status leta: Sletio/Poletio/Leti" << std::endl;
 					std::cin >> noviStatus;
@@ -95,11 +110,16 @@ bool Kontrolor::promjenaStatusa()
 							auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
 							fs::remove(filePath);
 							//remove(kopirajNaziv);
+							sortiranjeRasporeda();
 							return  true;
 						}
 						else if (letovi[index].getStatus() == "Poletio" || letovi[index].getStatus() == "Leti") {
 							//SAMO PROMIJENITI U .TXT FAJLU LETA DA JE POLETIO
+
 							pisi << letovi[index];
+							auto upisUFajl = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
+							upisUFajl << letovi[index];
+							upisUFajl.close();
 							if (letovi[index].getStatus() == "Poletio") {
 								std::cout << "Status leta promijenjen na poletio!" << std::endl;
 							}
@@ -146,7 +166,7 @@ void Kontrolor::sortiranjeRasporeda()
 	int numLine = 0;
 	string line;
 	Let* letovi = new Let[100];
-	file.open("./LETOVI/RASPORED.txt", std::ios::in);
+	file.open("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::in);
 	if (file)
 	{
 		while (file.peek() != EOF)
@@ -159,7 +179,7 @@ void Kontrolor::sortiranjeRasporeda()
 		{
 			for (int j = i + 1; j < index; j++)
 			{
-				if (letovi[j].getDatum() >= letovi[i].getDatum())
+				if (letovi[j].getDatum() < letovi[i].getDatum())
 				{
 					Let temp = letovi[j];
 					letovi[j] = letovi[i];
@@ -167,7 +187,7 @@ void Kontrolor::sortiranjeRasporeda()
 				}
 			}
 		}
-		auto pisi = std::ofstream("./LETOVI/NOVI_RASPORED.txt", std::ios::app | std::ios::out);
+		auto pisi = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out);
 		for (int i = 0; i < index; ++i)
 		{
 			pisi << letovi[i];
@@ -175,8 +195,8 @@ void Kontrolor::sortiranjeRasporeda()
 		pisi.close();
 	}
 
-	remove("./LETOVI/RASPORED.txt");
-	rename("./LETOVI/NOVI_RASPORED.txt", "./LETOVI/RASPORED.txt");
+	//remove("./LETOVI/ZAVRSENI_LETOVI.txt");
+	//rename("./LETOVI/NOVI_RASPORED.txt", "./LETOVI/ZAVRSENI_LETOVI.txt");
 	delete[] letovi;
 	std::cout << "Raspored soritan po datumu!" << std::endl;
 
@@ -220,6 +240,11 @@ void Kontrolor::otkazivanjeLeta()
 			std::cin.ignore();
 			std::cout << "Unesi ID leta koji se otkazuje!";
 			std::getline(std::cin, ID, '\n');
+
+			if (!postojiLiLet(std::stoi(ID))) {
+				throw std::exception("Ne mozete ukloniti let koji ne postoji!");
+			}
+
 			//std::cin >> ID;
 			std::ifstream file;
 			Let* letovi = new Let[100];
@@ -262,3 +287,21 @@ void Kontrolor::otkazivanjeLeta()
 
 }
 
+bool Kontrolor::postojiLiLet(int ime) const {
+	namespace fs = std::filesystem;
+
+	fs::path path = std::filesystem::current_path();
+	fs::path exampleSubfolderPath = path / "./LETOVI";
+	//auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
+	//fs::remove(filePath);
+
+	std::string napraviIme = "let_" + std::to_string(ime);
+
+	for (auto const& entry : fs::directory_iterator(exampleSubfolderPath)) {
+		if (entry.path().filename() == napraviIme + ".txt")
+			return true;
+	}
+
+	return false;
+
+}
