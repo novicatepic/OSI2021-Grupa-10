@@ -56,7 +56,11 @@ public:
 
 
 
-
+	bool operator<(const Let& other) const {
+		if (this->datum < other.datum)
+			return true;
+		return false;
+	}
 
 
 

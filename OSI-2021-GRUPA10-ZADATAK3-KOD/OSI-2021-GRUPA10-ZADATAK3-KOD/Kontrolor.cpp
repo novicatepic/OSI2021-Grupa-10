@@ -2,6 +2,8 @@
 #include "Let.h"
 #include "Datum.h"
 #include <stdio.h>
+#include <string>
+#include <vector>
 #include <filesystem>
 
 //FUNKCIJA ZA KREIRANJE LETOVA
@@ -27,9 +29,12 @@ void Kontrolor::kreiraj_let()
 			std::string ccat1 = std::to_string(s1) + std::to_string(s2);
 			std::string ccat2 = std::to_string(s3) + std::to_string(s4);
 
-			if (s1 < '0' || s1 > '2' || s2 < '0' || s2 > '9' || s3 < '0' || s3 >= '6' || s4 < '0' || s4 > '9') {
+			if (let.getVrijeme_polijetanja().size() > 5 || let.getVrijeme_slijetanja().size() > 5)
 				throw std::exception("Vrijeme neispravno uneseno!");
-			}
+
+			/*if (s1 < '0' || s1 > '2' || s2 < '0' || s2 > '9' || s3 < '0' || s3 >= '6' || s4 < '0' || s4 > '9') {
+				throw std::exception("Vrijeme neispravno uneseno!");
+			}*/
 
 			string id = to_string(let.getID());
 			auto fileLet = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::app);
@@ -46,8 +51,11 @@ void Kontrolor::kreiraj_let()
 			fileRaspored << let;
 
 		}
+
+
 		fileRaspored.close();
 
+		sortiranjeRasporeda("RASPORED");
 	}
 	catch (const std::exception& e)
 	{
@@ -64,12 +72,18 @@ bool Kontrolor::promjenaStatusa()
 		std::string id;
 		std::cin.ignore();
 
+		namespace fs = std::filesystem;
+		fs::path path = std::filesystem::current_path();
+
 		int index = 0;
 		Let* letovi = new Let[100];
 		std::cout << "Unesi ID leta za projemnu statusa:";
 		std::getline(std::cin, id, '\n');
 		auto ucitaj = std::ifstream("./LETOVI/RASPORED.txt", std::ios::in);
 		if (!ucitaj) throw std::exception("Fajl nije ucitan!");
+
+		if (!postojiLiLet(std::stoi(id))) throw std::exception("Let ne postoji, stoga se ne moze izmijeniti!");
+
 		else
 		{
 			
@@ -79,22 +93,14 @@ bool Kontrolor::promjenaStatusa()
 			{
 
 				letovi[index].ucitajLet(ucitaj);
-				if (letovi[index].getID() < 0)//treba izmjeniti ovaj uslov-stavljen samo radi testa
-				{
-
-					break;
-					return false;
-					ucitaj.close();
-
-				}
 
 				if (letovi[index].getID() == std::stoi(id))
 				{
-					auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
+					//auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
 					auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
 					std::cout << "Unesi novi status leta: Sletio/Poletio/Leti" << std::endl;
 					std::cin >> noviStatus;
-					if (pisi && pisi2)
+					if (pisi2)
 					{
 						letovi[index].setStatus(noviStatus);
 						if (letovi[index].getStatus() == "Sletio")
@@ -104,30 +110,35 @@ bool Kontrolor::promjenaStatusa()
 							pisi2.close();
 							std::string nazivFajla = "./LETOVI" + id + ".txt";
 
-							namespace fs = std::filesystem;
-							fs::path path = std::filesystem::current_path();
+							
 							fs::path exampleSubfolderPath = path / "./LETOVI";
 							auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
 							fs::remove(filePath);
 							//remove(kopirajNaziv);
+							azurirajAktivneLetove(id);
+							izbrisiIzRasporeda(id);
 							sortiranjeRasporeda("ZAVRSENI_LETOVI");
 							return  true;
 						}
 						else if (letovi[index].getStatus() == "Poletio" || letovi[index].getStatus() == "Leti") {
 							//SAMO PROMIJENITI U .TXT FAJLU LETA DA JE POLETIO
 
-							pisi << letovi[index];
+							//pisi << letovi[index];
 							auto upisUFajl = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
 							upisUFajl << letovi[index];
 							upisUFajl.close();
+							auto upisUAktivneLetove = std::ofstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
+							upisUAktivneLetove << letovi[index];
+							upisUAktivneLetove.close();
 							if (letovi[index].getStatus() == "Poletio") {
 								std::cout << "Status leta promijenjen na poletio!" << std::endl;
 							}
 							else {
 								std::cout << "Status leta promijenjen na leti!" << std::endl;
 							}
-							pisi.close();
-							sortiranjeRasporeda("RASPORED_AKTIVNI_LETOVI");
+
+							izbrisiIzRasporeda(id);
+
 							return true;
 						}
 						else
@@ -136,7 +147,7 @@ bool Kontrolor::promjenaStatusa()
 							//pisi << letovi[index];
 							//std::cout << "Status leta promijenjen! " << std::endl;
 							std::cout << "Neispravan izbor opcije!" << std::endl;
-							pisi.close();
+							//pisi.close();
 							return true;
 						}
 					}
@@ -198,7 +209,7 @@ void Kontrolor::sortiranjeRasporeda(std::string nazivFajla)
 	//remove("./LETOVI/ZAVRSENI_LETOVI.txt");
 	//rename("./LETOVI/NOVI_RASPORED.txt", "./LETOVI/ZAVRSENI_LETOVI.txt");
 	delete[] letovi;
-	std::cout << "Raspored soritan po datumu!" << std::endl;
+	//std::cout << "Raspored soritan po datumu!" << std::endl;
 
 }
 //FUNKCIJA ZA PREGLED SVIH LETOVIA
@@ -243,6 +254,9 @@ void Kontrolor::otkazivanjeLeta()
 
 			if (!postojiLiLet(std::stoi(ID))) {
 				throw std::exception("Ne mozete ukloniti let koji ne postoji!");
+			}
+			if (daLiJeLetAktivan(ID)) {
+				throw std::exception("Ne mozete otkazati let koji je poletio!");
 			}
 
 			//std::cin >> ID;
@@ -313,37 +327,6 @@ bool Kontrolor::postojiLiLet(int ime) const {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void Kontrolor::promijeniOperatera(std::string id) const {
 
 	namespace fs = std::filesystem;
@@ -377,4 +360,188 @@ void Kontrolor::promijeniOperatera(std::string id) const {
 		}
 	}
 
+}
+
+void Kontrolor::izbrisiIzRasporeda(std::string id) {
+	std::vector<Let> nizLetova;
+	auto citajLetove = std::ifstream("./LETOVI/RASPORED.txt", std::ios::in);
+
+	if (citajLetove) {
+		Let citaj;
+		while (citajLetove.peek() != EOF) {
+			citaj.ucitajLet(citajLetove);
+			if (citaj.getID() != std::stoi(id)) {
+				nizLetova.push_back(citaj);
+			}
+		}
+
+		citajLetove.close();
+
+		auto pisiLetove = std::ofstream("./LETOVI/RASPORED.txt", std::ios::out);
+		for (auto elem : nizLetova) {
+			pisiLetove << elem;
+		}
+
+		sortiranjeRasporeda("RASPORED");
+
+		pisiLetove.close();
+	}
+}
+
+void Kontrolor::azurirajAktivneLetove(std::string id) {
+	std::vector<Let> nizLetova;
+	auto citajLetove = std::ifstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::in);
+
+	if (citajLetove) {
+		Let citaj;
+		while (citajLetove.peek() != EOF) {
+			citaj.ucitajLet(citajLetove);
+			if (citaj.getID() != std::stoi(id)) {
+				nizLetova.push_back(citaj);
+			}
+		}
+
+		citajLetove.close();
+
+		auto pisiLetove = std::ofstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::out);
+		for (auto elem : nizLetova) {
+			if(elem.getID() != std::stoi(id))
+				pisiLetove << elem;
+		}
+
+		sortiranjeRasporeda("AKTIVNI_LETOVI");
+
+		pisiLetove.close();
+
+	}
+}
+
+bool Kontrolor::daLiJeLetAktivan(std::string id) {
+	auto otvoriFajl = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
+
+	if (otvoriFajl) {
+		while (otvoriFajl.peek() != EOF) {
+			Let l;
+			l.ucitajLet(otvoriFajl);
+
+			if (l.getID() == std::stoi(id))
+				return true;
+		}
+
+
+		otvoriFajl.close();
+	}
+
+	return false;
+}
+
+void Kontrolor::promjenaStatusaNovica() {
+
+	try
+	{
+		std::string id;
+		std::cin.ignore();
+
+		namespace fs = std::filesystem;
+		fs::path path = std::filesystem::current_path();
+
+		//int index = 0;
+		std::cout << "Unesi ID leta za projemnu statusa:";
+		std::getline(std::cin, id, '\n');
+		auto ucitaj = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
+		if (!ucitaj) throw std::exception("Let ne postoji!");
+
+		if (!postojiLiLet(std::stoi(id))) throw std::exception("Let ne postoji, stoga se ne moze izmijeniti!");
+
+		else
+		{
+
+				std::string noviStatus;
+
+				Let l;
+				l.ucitajLet(ucitaj);
+
+				//auto pisi = std::ofstream("./LETOVI/RASPORED_AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
+				auto pisi2 = std::ofstream("./LETOVI/ZAVRSENI_LETOVI.txt", std::ios::out | std::ios::app);
+				std::cout << "Unesi novi status leta: Sletio/Poletio/Leti" << std::endl;
+				std::cin >> noviStatus;
+				if (pisi2)
+				{
+					l.setStatus(noviStatus);
+					//letovi[index].setStatus(noviStatus);
+					if (l.getStatus() == "Sletio")
+					{
+						pisi2 << l;
+						std::cout << "Status leta promijenjen na sletio! " << std::endl;
+						pisi2.close();
+						std::string nazivFajla = "./LETOVI" + id + ".txt";
+
+						ucitaj.close();
+						fs::path exampleSubfolderPath = path / "./LETOVI";
+						auto filePath = exampleSubfolderPath / ("let_" + id + ".txt");
+						fs::remove(filePath);
+						//remove(kopirajNaziv);
+						azurirajAktivneLetove(id);
+						izbrisiIzRasporeda(id);
+						sortiranjeRasporeda("ZAVRSENI_LETOVI");
+						return;
+					}
+					else if (l.getStatus() == "Poletio" || l.getStatus() == "Leti") {
+							//SAMO PROMIJENITI U .TXT FAJLU LETA DA JE POLETIO
+
+							//pisi << letovi[index];
+						auto upisUFajl = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
+						upisUFajl << l;
+						upisUFajl.close();
+						prepisiLetove(id);
+						auto upisUAktivneLetove = std::ofstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::out | std::ios::app);
+						upisUAktivneLetove << l;
+						upisUAktivneLetove.close();
+						if (l.getStatus() == "Poletio") {
+							std::cout << "Status leta promijenjen na poletio!" << std::endl;
+						}
+						else {
+							std::cout << "Status leta promijenjen na leti!" << std::endl;
+						}
+						sortiranjeRasporeda("AKTIVNI_LETOVI");
+						izbrisiIzRasporeda(id);
+					}
+					else
+					{
+							//OVDJE TREBA ISPISATI GRESKU!!!!!
+							//pisi << letovi[index];
+							//std::cout << "Status leta promijenjen! " << std::endl;
+						std::cout << "Neispravan izbor opcije!" << std::endl;
+							//pisi.close();
+					}
+				}
+			ucitaj.close();
+		}
+	}
+	catch (const exception& e)
+	{
+		std::cout << e.what() << ::endl;
+	}
+}
+
+void Kontrolor::prepisiLetove(std::string id) {
+	auto citanje = std::ifstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::in);
+	std::vector<Let> aktivniLetovi;
+	if (citanje) {
+		while (citanje.peek() != EOF) {
+			Let l;
+			l.ucitajLet(citanje);
+			if (l.getID() != std::stoi(id)) {
+				aktivniLetovi.push_back(l);
+			}
+		}
+		citanje.close();
+	}
+
+	auto upis = std::ofstream("./LETOVI/AKTIVNI_LETOVI.txt", std::ios::out);
+
+	for (auto elem : aktivniLetovi) {
+		upis << elem;
+	}
+	upis.close();
 }

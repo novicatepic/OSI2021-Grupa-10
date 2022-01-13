@@ -189,7 +189,7 @@ void Sef::pregledRezervacija()
 		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "ODOBRENE_REZERVACIJE"))
 			std::cout << entry.path().filename() << std::endl;
 
-		std::cout << std::endl;
+		//std::cout << std::endl;
 		
 		std::cout << "Ispis otkazanih rezervacija: " << std::endl;
 		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "OTKAZANE_REZERVACIJE"))

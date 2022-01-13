@@ -158,29 +158,44 @@ void Let::ispisi_let() const
 }
 
 std::istream& operator>>(std::istream& is, Let& l) {
-	std::cout << "Unesite ID leta: " << std::endl;
-	//std::getline(std::cin, l.ID, '\n');
-	is >> l.ID;
-	std::cin.ignore();
-	std::cout << "Unesite vrijeme polijetanja: " << std::endl;
-	std::getline(std::cin, l.vrijeme_polijetanja, '\n');
-	//is >> l.vrijeme_polijetanja;
-	std::cout << "Unesite vrijeme slijetanja: " << std::endl;
-	std::getline(std::cin, l.vrijeme_slijetanja, '\n');
-	//is >> l.vrijeme_slijetanja;
-	std::cout << "Unesite datum: " << std::endl;
-	is >> l.datum;
-	std::cin.ignore();
-	std::cout << "Unesite opis: " << std::endl;
-	std::getline(std::cin, l.opis, '\n');
-	l.status = "spreman";
-	//is >> l.opis;
-	std::cout << "Unesite broj mjesta: " << std::endl;
-	is >> l.br_mjesta;
-	//std::cout << "Unesite broj slobodnih mjesta: " << std::endl;
-	//is >> l.br_slobodnih_mjesta;
-	l.br_slobodnih_mjesta = l.br_mjesta;
-	return is;
+
+		std::cin.ignore();
+		std::cout << "Unesite ID leta: " << std::endl;
+		//std::getline(std::cin, l.ID, '\n');
+		std::string id;
+		std::getline(std::cin, id, '\n');
+		//if(std::isdigit(id) == 0)
+		for (char const& c : id) {
+			if (std::isdigit(c) == 0) throw std::exception("ID mora biti broj!");
+		}
+		//is >> l.ID;
+		l.ID = std::stoi(id);
+		//std::cin.ignore();
+		std::cout << "Unesite vrijeme polijetanja (u formatu hh:mm): " << std::endl;
+		std::getline(std::cin, l.vrijeme_polijetanja, '\n');
+		//is >> l.vrijeme_polijetanja;
+		std::cout << "Unesite vrijeme slijetanja: (u formatu hh:mm)" << std::endl;
+		std::getline(std::cin, l.vrijeme_slijetanja, '\n');
+		//is >> l.vrijeme_slijetanja;
+		std::cout << "Unesite datum: " << std::endl;
+		is >> l.datum;
+		std::cin.ignore();
+		std::cout << "Unesite opis: " << std::endl;
+		std::getline(std::cin, l.opis, '\n');
+		l.status = "spreman";
+		//is >> l.opis;
+		std::cout << "Unesite broj mjesta: " << std::endl;
+		is >> l.br_mjesta;
+		//std::cout << "Unesite broj slobodnih mjesta: " << std::endl;
+		//is >> l.br_slobodnih_mjesta;
+		l.br_slobodnih_mjesta = l.br_mjesta;
+		return is;
+	
+	/*catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+		return is;
+	}*/
+	
 }
 
 

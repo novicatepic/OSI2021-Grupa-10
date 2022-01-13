@@ -93,6 +93,7 @@ Radnik prijaviNaSistem(const std::string korisnickoIme, const std::string lozink
 	if (citaj) {
 		while (citaj.good()) {
 			//Radnik r ne radi, program kresa
+			//Radnik r;
 			Radnik* r = new Radnik;
 			citaj.read((char*)r, sizeof(Radnik));
 			if (r->getIme() == korisnickoIme && r->getLozinka() == lozinka) {
@@ -142,8 +143,9 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 					Administrator a(r.getIme(), r.getLozinka());
 					prikaziPodatkeORadniku(r);
 					//FUNKCIONALNOSTI ADMINISTRATORA
+					administratorPomocnaFunkcija();
 					do {
-						//administratorPomocnaFunkcija();
+
 						//std::cout << "Sefova: " << a.kolikoSefova() << std::endl;
 						//std::cout << "Administratora: " << a.kolikoAdministratora() << std::endl;
 						std::cout << "Unesite opciju za rad: " << std::endl;
@@ -179,8 +181,9 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 				else if (r.getradnoMjesto() == "Sef") {
 					Sef s(r.getIme(), r.getLozinka());
 					prikaziPodatkeORadniku(s);
+					sefPomocnaFunkcija1();
 					do {
-						//sefPomocnaFunkcija1();
+
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--viewreports") {
@@ -220,7 +223,7 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 					Operater o(r.getIme(), r.getLozinka());
 					prikaziPodatkeORadniku(o);
 					do {
-						//operaterPomocnaFunkcija();
+						operaterPomocnaFunkcija();
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--viewreservations") {
@@ -255,8 +258,9 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 				else if (r.getradnoMjesto() == "Kontrolor") {
 					Kontrolor k(r.getIme(), r.getLozinka());
 					prikaziPodatkeORadniku(k);
+					kontrolorPomocnaFunkcija();
 					do {
-						//kontrolorPomocnaFunkcija();
+
 						std::cout << "Unesite opciju za rad: " << std::endl;
 						std::cin >> opcija;
 						if (opcija == "--create") {
@@ -270,7 +274,8 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 							k.pregledInformacijaOLetovima();
 						}
 						else if (opcija == "--change") {
-							k.promjenaStatusa();
+							//k.promjenaStatusa();
+							k.promjenaStatusaNovica();
 						}
 						else if (opcija == "-logout") {
 

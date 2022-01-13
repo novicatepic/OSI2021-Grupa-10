@@ -3,6 +3,8 @@
 //
 
 #include "Operater.h"
+#include <vector>
+#include <set>
 namespace fs = std::filesystem;
 
 bool pomocZaOperatera(std::string id) {
@@ -15,13 +17,43 @@ bool pomocZaOperatera(std::string id) {
             Let l;
             l.ucitajLet(otvori);
             otvori.close();
-            if (l.getBr_slobodnih_mjesta() >= 1) { //FALI JOS USLOV AKO MIRUJE 
+
+            if (l.getStatus() != "spreman") {
+                throw std::exception("Nemoguce odobriti rezervaciju za aktivan let ili let koji je zavrsen!");
+            }
+
+            if (l.getBr_slobodnih_mjesta() >= 1 && l.getStatus() == "spreman") { //FALI JOS USLOV AKO MIRUJE 
                 l.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta() - 1);
                 auto promijeni = std::ofstream("./LETOVI/let_" + id + ".txt", std::ios::out);
                 if (promijeni) {
                     promijeni << l;
                     promijeni.close();
                 }
+
+                std::set<Let> setLetova;
+                auto promijeniRaspored = std::ifstream("./LETOVI/RASPORED.txt", std::ios::in);
+                if (promijeniRaspored) {
+                    while (promijeniRaspored.peek() != EOF) {
+                        Let l2;
+                        l2.ucitajLet(promijeniRaspored);
+                       // if (l.getID() == std::stoi(id)) {
+                            //l.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta() - 1);
+                        //}
+                        if (l2.getID() == l.getID()) {
+                            l2.setBr_slobodnih_mjesta(l.getBr_slobodnih_mjesta());
+                        }
+                        setLetova.insert(l2);
+                    }
+                    promijeniRaspored.close();
+                    auto pisiRaspored = std::ofstream("./LETOVI/RASPORED.txt", std::ios::out);
+                    std::set<Let>::iterator it = setLetova.begin();
+                    while (it != setLetova.end()) {
+                        pisiRaspored << *it;
+                        it++;
+                    }
+                    pisiRaspored.close();
+                }
+
                 return true;
             }
             else {
@@ -106,56 +138,57 @@ void Operater::obradaRezervacije()
     std::cin.ignore();
     std::getline(std::cin, odgovor, '\n');
 
-    if (odgovor == "--permit")
-    {
-        if (pomocZaOperatera(idLeta))
+        if (odgovor == "--permit")
         {
+            if (pomocZaOperatera(idLeta))
+            {
 
-            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije , std::ios::app);
-            fajlRezervacije << std::endl;
-            fajlRezervacije << this->getIme();
-            fajlRezervacije.close();
+                fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije, std::ios::app);
+                fajlRezervacije << std::endl;
+                fajlRezervacije << this->getIme();
+                fajlRezervacije.close();
 
-            std::string command = "move rezervacije\\"
-                + nazivRezervacije +
-                " rezervacije\\odobrene_rezervacije";
+                std::string command = "move rezervacije\\"
+                    + nazivRezervacije +
+                    " rezervacije\\odobrene_rezervacije";
 
-            std::system(command.c_str());
+                std::system(command.c_str());
 
-            std::cout << "rezervacija uspjesno odobrena!" << std::endl;
+                std::cout << "rezervacija uspjesno odobrena!" << std::endl;
+            }
+            else {
+                //std::cout << "let ne postoji!!!" << std::endl;
+            }
         }
-        else {
-            //std::cout << "let ne postoji!!!" << std::endl;
+        else if (odgovor == "--decline")
+        {
+            auto citajFajl = std::ifstream("./REZERVACIJE/" + nazivRezervacije, std::ios::in);
+            if (citajFajl) {
+                citajFajl.close();
+
+                fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije, std::ios::_Nocreate);
+                fajlRezervacije << std::endl;
+                fajlRezervacije << this->getIme();
+                fajlRezervacije.close();
+
+                std::string command = "move rezervacije\\"
+                    + nazivRezervacije +
+                    " rezervacije\\otkazane_rezervacije";
+
+                std::system(command.c_str());
+
+                std::cout << "rezervacija uspjesno otkazana!" << std::endl;
+
+            }
+
+            else {
+                std::cout << "Rezervacija ne postoji!" << std::endl;
+            }
+
         }
-    }
-    else if (odgovor == "--decline")
-    {
-        auto citajFajl = std::ifstream("./REZERVACIJE/" + nazivRezervacije, std::ios::in);
-        if (citajFajl) {
-            citajFajl.close();
-
-            fajlRezervacije.open("./REZERVACIJE/" + nazivRezervacije, std::ios::_Nocreate);
-            fajlRezervacije << std::endl;
-            fajlRezervacije << this->getIme();
-            fajlRezervacije.close();
-
-            std::string command = "move rezervacije\\"
-                + nazivRezervacije +
-                " rezervacije\\otkazane_rezervacije";
-
-            std::system(command.c_str());
-
-            std::cout << "rezervacija uspjesno otkazana!" << std::endl;
-
+        else
+        {
+            std::cout << "Neispravan izbor!" << std::endl;
         }
 
-        else {
-            std::cout << "Rezervacija ne postoji!" << std::endl;
-        }
-
-    }
-    else
-    {
-        std::cout << "Neispravan izbor!" << std::endl;
-    }
 }

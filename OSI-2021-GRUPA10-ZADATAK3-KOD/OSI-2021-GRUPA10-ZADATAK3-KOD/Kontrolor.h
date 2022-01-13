@@ -22,11 +22,18 @@ public:
     Kontrolor(std::string name, std::string pass) : Radnik(name, pass, "Kontrolor") {}
     void kreiraj_let();
     bool promjenaStatusa();
-    void sortiranjeRasporeda(std::string);
+
+    void promjenaStatusaNovica();
+
     void pregledInformacijaOLetovima() const;
     void otkazivanjeLeta();
 
 private:
     bool postojiLiLet(int ime) const;
     void promijeniOperatera(std::string id) const;
+    void izbrisiIzRasporeda(std::string id);
+    void azurirajAktivneLetove(std::string id);
+    void sortiranjeRasporeda(std::string);
+    void prepisiLetove(std::string);
+    bool daLiJeLetAktivan(std::string);
 };
