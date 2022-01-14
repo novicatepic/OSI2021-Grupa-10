@@ -273,17 +273,20 @@ void Kontrolor::otkazivanjeLeta()
 				}
 			}
 				file.close();
+				auto upis = std::ofstream("./LETOVI/RASPORED.txt", std::ios::out);
 				for (int i = 0; i < index; i++)
 				{
 					if (letovi[i].getID() != std::stoi(ID))
 					{
-						auto upis = ofstream("./LETOVI/RASPORED.txt", std::ios::out | std::ios::app);
+						//auto upis = ofstream("./LETOVI/RASPORED.txt", std::ios::out | std::ios::app);
 
 						if (upis) {
 							upis << letovi[i];
 						}
+						
 					}
 				}
+				upis.close();
 				std::string fileName = "./LETOVI/let_" + ID +".txt";
 				int result=remove(fileName.c_str());
 				if (result == 0) {
