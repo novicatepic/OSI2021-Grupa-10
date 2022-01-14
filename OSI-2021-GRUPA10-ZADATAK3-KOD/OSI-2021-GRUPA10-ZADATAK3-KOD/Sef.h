@@ -30,23 +30,23 @@ public:
 	
 
 	// Nudi opciju da se izabere dnevni, sedmicni ili mjesecni pregled pa ispise letove u skladu sa izborom
-	void pregledZavrsenihLetova();
+	void pregledZavrsenihLetova() const;
 
-	void pregledRezervacija();
+	void pregledRezervacija() const;
 
 private:
 
 	// Prikazuje sve zavrsene letove na uneseni datum - Poziva se iz  pregledZavrsenihLetova();
-	void pregledZavrsenihLetovaDnevno(Datum);
+	void pregledZavrsenihLetovaDnevno(Datum) const;
 
 	// Prikazuje sve zavrsene letove u sedmici koja pocinje unesenim datumom - Poziva se iz  pregledZavrsenihLetova();
-	void pregledZavrsenihLetovaSedmicno(Datum);
+	void pregledZavrsenihLetovaSedmicno(Datum) const;
 
 	// Prikazuje sve zavrsene letove u mjesecu koji pocinje unesenim datumom - Poziva se iz pregledZavrsenihLetova();
-	void pregledZavrsenihLetovaMjesecno(Datum);
+	void pregledZavrsenihLetovaMjesecno(Datum) const;
 
 
 };
 
-// Vraca 7 dana kasnije od pocetnogDatuma uz sve provjere
+// Vraca 7 dana kasnije od pocetnogDatuma, uz sve provjere
 Datum sedamDanaKasnije(Datum pocetniDatum);
