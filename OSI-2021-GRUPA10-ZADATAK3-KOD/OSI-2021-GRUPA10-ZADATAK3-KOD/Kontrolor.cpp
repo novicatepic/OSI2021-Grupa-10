@@ -420,13 +420,11 @@ bool Kontrolor::daLiJeLetAktivan(std::string id) {
 	auto otvoriFajl = std::ifstream("./LETOVI/let_" + id + ".txt", std::ios::in);
 
 	if (otvoriFajl) {
-		while (otvoriFajl.peek() != EOF) {
-			Let l;
-			l.ucitajLet(otvoriFajl);
+		Let l;
+		l.ucitajLet(otvoriFajl);
 
-			if (l.getID() == std::stoi(id))
-				return true;
-		}
+		if (l.getStatus() != "spreman")
+			return true;
 
 
 		otvoriFajl.close();
