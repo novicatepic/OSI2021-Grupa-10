@@ -8,20 +8,21 @@
 
 
 
-void Sef::pregledZavrsenihLetova()
+void Sef::pregledZavrsenihLetova() const
 {
+		cout << "-------------------------------------- pregled zavrsenih letova ----------------------------------------------------" << endl;
+
 	try {
 
 		std::string izbor;
 		Datum datum;
 
 		cout << "Unesite zeljenu opciju: "<< endl;
-		cout << "Dnevni prikaz   (prikaz svih letova koji su zavrseni na dan koji cete unijeti)                  - unesite '--daily' " << endl;
-		cout << "Sedmicni prikaz (prikaz svih letova u periodu od 7 dana, pocevsi od datuma kojeg cete unijeti)  - unesite '--weekly' " << endl;
-		cout << "Mjesecni prikaz (prikaz svih letova zavrsenih u mjesecu kojeg cete unijeti)                     - unesite '--monthly' " << endl;
+		cout << "Dnevni prikaz   (prikaz svih letova koji su zavrseni na dan koji cete unijeti)                  - unesite '--daily' "	 << endl;
+		cout << "Sedmicni prikaz (prikaz svih letova u periodu od 7 dana, pocevsi od datuma kojeg cete unijeti)  - unesite '--weekly' "	 << endl;
+		cout << "Mjesecni prikaz (prikaz svih letova zavrsenih u mjesecu kojeg cete unijeti)                     - unesite '--monthly' " << endl << endl;
 
-		//cin >> izbor;
-		std::cin.ignore();
+
 		std::getline(std::cin, izbor, '\n');
 
 		if (izbor == "--daily")
@@ -66,7 +67,8 @@ void Sef::pregledZavrsenihLetova()
 
 
 
-void Sef::pregledZavrsenihLetovaDnevno(Datum dan)
+
+void Sef::pregledZavrsenihLetovaDnevno(Datum dan) const
 {
 	Let temp_let;
 
@@ -77,23 +79,22 @@ void Sef::pregledZavrsenihLetovaDnevno(Datum dan)
 	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
 
 
-	cout << "                                 -------------------------------  Dnevni izvjestaj za dan: " << dan << "  -------------------------------" << endl;
-	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+	cout << "                           ------------------------------------  Dnevni izvjestaj za dan: " << dan << "  ------------------------------------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  |  Status  | " << endl;
 
-	//while (!file.eof())
-	while(file.peek() != EOF) //NOVICINA IZMJENA, NE ISPISE STOI INVALID ARGUMENT
+
+	while(file.peek() != EOF)
 	{
-		//POKUPI I NAREDNI LET JER JE STATUS NAKNADNO DODAN
 		temp_let.ucitajLet(file);
 
-		//if (temp_let.getDatum() > dan) break;							// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (1/3)    * * *
+		if (temp_let.getDatum() > dan) break;							// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (1/3)    * * *
 																		// Fajl sa letovima je sortiran po datumu, tako da kad se dodje do prvog datuma veceg od dan - prekidaj
 
 		if (temp_let.getDatum() == dan)
 			temp_let.ispisi_let();
 	}
 
-	cout << "                                 ------------------------------------------------------------------------------------------------------" << endl;
+	cout << "                           ----------------------------------------------------------------------------------------------------------------" << endl;
 
 	file.close();
 }
@@ -101,7 +102,7 @@ void Sef::pregledZavrsenihLetovaDnevno(Datum dan)
 
 
 
-void Sef::pregledZavrsenihLetovaSedmicno(Datum dan)
+void Sef::pregledZavrsenihLetovaSedmicno(Datum dan) const
 {
 	Let temp_let;
 	Datum plusSedamDana = sedamDanaKasnije(dan);
@@ -113,23 +114,21 @@ void Sef::pregledZavrsenihLetovaSedmicno(Datum dan)
 	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
 
 
-	cout << "                                 ---------  Sedmicni izvjestaj za sedmicu: " << dan << " - " << plusSedamDana << "  ---------" << endl;
-	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+	cout << "                           --------------------------  Sedmicni izvjestaj za sedmicu: " << dan << " - " << plusSedamDana << "  --------------------------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  |  Status  | " << endl;
 
 	while(file.peek() != EOF)
-	//while (!file.eof())
 	{
 		temp_let.ucitajLet(file);
 
-		if (temp_let.getDatum() >= plusSedamDana) break;								// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (2/3)    * * *
-																						// Fajl sa letovima je sortiran po datumu, tako da kad se dodje do prvog datuma veceg od dan+7 - prekidaj.
+		if (temp_let.getDatum() >= plusSedamDana) break;											// * * *   I Z B R I S A T I   A K O   L E T O V I   U   F A J L U   N I S U   S O R T I R A N I (2/3)    * * *
+																									// Fajl sa letovima je sortiran po datumu, tako da kad se dodje do prvog datuma veceg od dan+7 - prekidaj.
 
-		if(temp_let.getDatum()>= dan && temp_let.getDatum() < plusSedamDana)			// Ako je izmedju ucitanog dana i dan+7 - ispisi.
+		if(temp_let.getDatum() >= dan && temp_let.getDatum() < plusSedamDana)			// Ako je izmedju ucitanog dana i dan+7 - ispisi.
 			temp_let.ispisi_let();
-		//file.ignore();
 	}
 
-	cout << "                                 ------------------------------------------------------------------------------" << endl;
+	cout << "                           ----------------------------------------------------------------------------------------------------------------" << endl;
 
 	file.close();
 }
@@ -137,7 +136,7 @@ void Sef::pregledZavrsenihLetovaSedmicno(Datum dan)
 
 
 
-void Sef::pregledZavrsenihLetovaMjesecno(Datum dan)
+void Sef::pregledZavrsenihLetovaMjesecno(Datum dan) const
 {
 	Let temp_let;
 
@@ -148,11 +147,10 @@ void Sef::pregledZavrsenihLetovaMjesecno(Datum dan)
 	if (!file) throw std::exception("Ne mogu otvoriti fajl 'ZAVRSENI_LETOVI' !");
 
 
-	cout << "                                 ----------------------  Mjesecni izvjestaj za: " << dan.getMjesec() << ". mjesec  ----------------------" << endl;
-	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  | " << endl;
+	cout << "                           --------------------------------------  Mjesecni izvjestaj za: " << dan.getMjesec() << ". mjesec  --------------------------------------" << endl;
+	cout << "|  ID  |  Vrijeme polijetanja  |  Vrijeme slijetanja  |  Datum polaska  |             Ruta             |  Ukupan broj mjesta  |  Broj slobodnih mjesta  |  Status  | " << endl;
 
 	while(file.peek() != EOF)
-	//while (!file.eof())
 	{
 		temp_let.ucitajLet(file);
 
@@ -165,53 +163,43 @@ void Sef::pregledZavrsenihLetovaMjesecno(Datum dan)
 			temp_let.ispisi_let();
 	}
 
-	cout << "                                 ---------------------------------------------------------------------------------" << endl;
+	cout << "                           ----------------------------------------------------------------------------------------------------------------" << endl;
 
 	file.close();
 }
 
 
 
-void Sef::pregledRezervacija()
-{
-	try {
 
-		fstream file;
-		//file.open(REZERVACIJE_FILEPATH, ios::in);
+void Sef::pregledRezervacija() const
+{
+	cout << "-------------------------------------- pregled rezervacija ----------------------------------------------------" << endl << endl;
+
+
+	try {
 
 		namespace fs = std::filesystem;
 
 		fs::path path = std::filesystem::current_path();
 
-		std::ifstream otvoriOdobrene = std::ifstream("./REZERVACIJE/ODOBRENE_REZERVACIJE", std::ios::in);
-		std::cout << "Ispis odobrenih rezervacija: " << std::endl;
-		
+
+		std::cout << "---- Ispis odobrenih rezervacija ----" << std::endl;
 		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "ODOBRENE_REZERVACIJE"))
 			std::cout << entry.path().filename() << std::endl;
 
-		//std::cout << std::endl;
 		
-		std::cout << "Ispis otkazanih rezervacija: " << std::endl;
+		std::cout << std::endl << "---- Ispis otkazanih rezervacija ----" << std::endl;
 		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "OTKAZANE_REZERVACIJE"))
 			std::cout << entry.path().filename() << std::endl;
 
-		std::cout << "Ispis neobradjenih rezervacija: " << std::endl;
-		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE")) {
+
+		std::cout << std::endl << "---- Ispis neobradjenih rezervacija ----" << std::endl;
+		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE"))							// NADODATI FAJL /"ODOBRENE_REZERVACIJE" AKO SE ON NAPRAVI U BUDUCNOSTI
+		{
 			if(entry.path().filename() != "ODOBRENE_REZERVACIJE" && entry.path().filename() != "OTKAZANE_REZERVACIJE")
 				std::cout << entry.path().filename() << std::endl;
 		}
 			
-
-		//std::ifstream otvoriOstale = std::ifstream("./REZERVACIJE")
-		
-		string str;
-
-		if (!file) throw std::exception("Ne mogu otvoriti fajl 'REZERVACIJE' !");
-
-
-
-
-		file.close();
 	}
 	catch (const std::exception& e)
 	{
@@ -221,10 +209,10 @@ void Sef::pregledRezervacija()
 
 
 
-Datum sedamDanaKasnije(Datum pocetniDatum) {
-	//Datum rez;
+Datum sedamDanaKasnije(Datum pocetniDatum)
+{
 	try {
-		bool korDatum = korektanDatum(pocetniDatum.getMjesec(), pocetniDatum.getDan(), pocetniDatum.getGodina());
+		bool korDatum = korektanDatum(pocetniDatum.getDan(), pocetniDatum.getMjesec(), pocetniDatum.getGodina());
 		int daniUMjesecu = vratiKolikoDanaImaMjesec(pocetniDatum.getMjesec(), pocetniDatum.getGodina());
 		int noviDani = (pocetniDatum.getDan() + 7) % daniUMjesecu;
 
@@ -244,8 +232,8 @@ Datum sedamDanaKasnije(Datum pocetniDatum) {
 			noviMjesec = pocetniDatum.getMjesec();
 			novaGodina = pocetniDatum.getGodina();
 		}
-		Datum rez(noviDani, noviMjesec, novaGodina);
-		return rez;
+
+		return Datum(noviDani, noviMjesec, novaGodina);
 	}
 	catch (const std::exception& e) {
 		Datum rez;

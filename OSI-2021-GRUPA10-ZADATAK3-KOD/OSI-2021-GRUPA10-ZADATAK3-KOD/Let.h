@@ -2,11 +2,12 @@
 
 
 #include <iomanip>
+#include <fstream>
+#include <string>
+
 
 #include "Datum.h"
 
-#include <fstream>
-#include <string>
 
 using namespace std;
 

@@ -23,7 +23,9 @@ bool korektanDatum(int dan, int mjesec, int godina) {
 		throw std::exception("Nepravilan unos godine! Godina mora biti veca od 1800! ");
 
 	}
-	if (mjesec == 1 || mjesec == 3 || mjesec == 5 || mjesec == 7 || mjesec == 8 || mjesec == 10 || mjesec == 12) {
+
+	if (mjesec == 1 || mjesec == 3 || mjesec == 5 || mjesec == 7 || mjesec == 8 || mjesec == 10 || mjesec == 12) 
+	{
 		if (dan >= 1 && dan <= 31)
 			return true;
 		else
@@ -61,7 +63,8 @@ bool korektanDatum(int dan, int mjesec, int godina) {
 			}
 		}
 	}
-	else {
+	else if(mjesec > 12 || mjesec < 1) 
+	{
 		std::cout << dan << "." << mjesec << "." << godina << "." << " -- ";
 		throw std::exception("Nepravilan unos mjeseca! ");
 	}
@@ -121,11 +124,11 @@ void unosMjesecaIGodine(Datum& d)
 
 	d.setDan(1);
 
-	std::cout << "Unesite mjesec: " << std::endl;
+	std::cout << std::endl << "Unesite mjesec: " << std::endl;
 	std::cin >> mj; d.setMjesec(mj);
 	if (d.getMjesec() > 12 || d.getMjesec() < 1) throw std::exception("Pogressan unos mjeseca!");
 
-	std::cout << "Unesite godinu: " << std::endl;
+	std::cout << std::endl << "Unesite godinu: " << std::endl;
 	std::cin >> god; d.setGodina(god);
 
 	if (d.getGodina() < 1800) throw std::exception("Pogresan unos godine!");

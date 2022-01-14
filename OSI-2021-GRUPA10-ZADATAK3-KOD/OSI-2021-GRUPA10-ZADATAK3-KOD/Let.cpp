@@ -3,9 +3,8 @@
 
 
 #include "Let.h"
-//Dodat jos jedan argument za klasu Let -status i dopunjene sve funkcije!
-#include <fstream>
-#include <string>
+
+
 
 int Let::getID() const
 {
@@ -93,6 +92,7 @@ std::string Let::getStatus() const
 {
 	return status;
 }
+
 // Ucitava podatke o letu iz fajla i dodjeljuje vrijednosti proslijedjenom objektu (this)
 void Let::ucitajLet(ifstream& file)
 {
@@ -100,7 +100,6 @@ void Let::ucitajLet(ifstream& file)
 	string t_ID;
 	string t_vrijeme_polijetanja;
 	string t_vrijeme_slijetanja;
-	string t_date_d, t_date_m, t_date_g;
 	string t_opis;
 	string t_status;
 	string t_br_mjesta;
@@ -117,16 +116,8 @@ void Let::ucitajLet(ifstream& file)
 	getline(file, t_vrijeme_slijetanja, ',');
 	this->setVrijeme_slijetanja(t_vrijeme_slijetanja);
 
-	getline(file, t_date_d, '.');										// Za ucitavanje datuma 
-	getline(file, t_date_m, '.');										// (postoji i Novicina funkcija) 
-	getline(file, t_date_g, '.');										// 
-	this->setDatum(stoi(t_date_d), stoi(t_date_m), stoi(t_date_g));		//
-
-	//file >> this->datum; RADI I OVO, VALJA SARCU, SLUZI SVRSI
-
+	file >> this->datum;
 	getline(file, nothing, ',');										// Da dodje do zareza i da ga preskoci, idemo dalje, na opis.
-
-
 
 	getline(file, t_opis, ',');
 	this->setOpis(t_opis);
@@ -147,14 +138,14 @@ void Let::ucitajLet(ifstream& file)
 // Ispisuje jedan let u formatiranom obliku
 void Let::ispisi_let() const
 {
-	cout << " " << setw(7) << left << this->getID();
+	cout << " " << setw(9) << left << this->getID();
 	cout << setw(24) << left << this->getVrijeme_polijetanja();
 	cout << setw(23) << left << this->getVrijeme_slijetanja();
 	cout << this->getDatum() << "       ";
-	cout << setw(31) << left << this->getOpis();
+	cout << setw(33) << left << this->getOpis();
 	cout << setw(23) << left << this->getBr_mjesta();
-	cout << this->getBr_slobodnih_mjesta() << endl;
-	cout << setw(20) << left << this->getStatus();
+	cout << setw(26) << left << this->getBr_slobodnih_mjesta();
+	cout << setw(21) << left << this->getStatus() << endl;
 }
 
 std::istream& operator>>(std::istream& is, Let& l) {

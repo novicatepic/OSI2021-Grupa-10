@@ -1,7 +1,7 @@
 #pragma once
 
 
-
+#include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -34,16 +34,15 @@ public:
 
 	friend std::istream& operator>>(std::ifstream& ifs, Datum& d) {
 		char delim = '.';
-		std::string tip;
 		std::string dan, mjesec, godina;
 		std::getline(ifs, dan, delim);
 		std::getline(ifs, mjesec, delim);
 		std::getline(ifs, godina, delim);
 
-
 		d.dan = std::stoi(dan);
 		d.mjesec = std::stoi(mjesec);
 		d.godina = std::stoi(godina);
+
 		return ifs;
 	}
 
@@ -56,11 +55,11 @@ public:
 	}
 
 	friend std::istream& operator>>(std::istream& is, Datum& d) {
-		std::cout << "Unesite dan: " << std::endl;
+		std::cout << std::endl << "Unesite dan: " << std::endl;
 		is >> d.dan;
-		std::cout << "Unesite mjesec: " << std::endl;
+		std::cout << std::endl << "Unesite mjesec: " << std::endl;
 		is >> d.mjesec;
-		std::cout << "Unesite godinu: " << std::endl;
+		std::cout << std::endl << "Unesite godinu: " << std::endl;
 		is >> d.godina;
 		return is;
 	}
