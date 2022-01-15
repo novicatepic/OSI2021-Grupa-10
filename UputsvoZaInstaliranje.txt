@@ -1,6 +1,7 @@
-Potrebno je otpakovati arhivu.
+Potrebno je otpakovati zip arhivu.
 U arhivi će biti svi potrebni folderi u vezi letova i rezervacija.
 U folderu letovi se nalaze Aktivni letovi, raspored kao i završeni letovi, te svi pojedinačni letovi.
 U folderu rezervacije se nalaze odobrene, odbijene i neobrađene rezervacije.
 Nakon što ste otpakovali arhivu, potrebno je da pokrenete .exe fajl.
+Unutar config fajla možete promijeniti dozvoljeni broj administratora ili šefova.
 
