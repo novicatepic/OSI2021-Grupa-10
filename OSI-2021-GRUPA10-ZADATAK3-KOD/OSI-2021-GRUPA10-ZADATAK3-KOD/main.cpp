@@ -18,6 +18,18 @@ int main() {
 		pomocnaFunkcijaPriPrijavljivanju();
 	}
 	else {
+		 std::cout << "\n"
+                 "                                    |\n"
+                 "Digital Flight Control System       |\n"
+                 "by Group X                          |\n"
+                 "                                  .-'-.\n"
+                 "                                 ' ___ '\n"
+                 "                       ---------'  .-.  '---------\n"
+                 "       _________________________'  '-'  '_________________________\n"
+                 "        ''''''-|---|--/    \\==][^',_m_,'^][==/    \\--|---|-''''''\n"
+                 "                      \\    /  ||/   H   \\||  \\    /\n"
+                 "                       '--'   OO   O|O   OO   '--'"
+     << std::endl;
 		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app | std::ios::out);
 		std::string korisnickoIme, lozinka;
 		std::cout << "Prvo ocitavanje fajla : privremeni admin napravljen!" << std::endl;
