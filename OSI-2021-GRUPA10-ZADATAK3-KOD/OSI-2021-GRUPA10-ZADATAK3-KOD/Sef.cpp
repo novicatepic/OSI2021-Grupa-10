@@ -5,7 +5,7 @@
 #include "Sef.h"
 #include "Let.h"
 #include <filesystem>
-
+#include <string>
 
 
 void Sef::pregledZavrsenihLetova() const
@@ -187,8 +187,10 @@ void Sef::pregledRezervacija() const
 
 
 		std::cout << "---- Ispis odobrenih rezervacija ----" << std::endl;
-		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "ODOBRENE_REZERVACIJE"))
+		for (auto const& entry : fs::directory_iterator(path / "REZERVACIJE" / "ODOBRENE_REZERVACIJE")) {
 			std::cout << entry.path().filename() << std::endl;
+		}
+	
 
 		
 		std::cout << std::endl << "---- Ispis otkazanih rezervacija ----" << std::endl;

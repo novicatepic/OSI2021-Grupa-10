@@ -130,13 +130,18 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 		//std::cout << "Sefova: " << kolikoSefova() << std::endl;
 		//std::cout << "Administratora: " << kolikoAdministratora() << std::endl;
 		std::cout << "Ukoliko zelite prestati sa radom, unesite --exit" << std::endl;
-		std::cout << "Unesite podatke za prijavljivanje: " << std::endl;
-		std::cout << "Unesite korisnicko ime" << std::endl;
+		//std::cout << "Unesite podatke za prijavljivanje: " << std::endl;
+		std::cout << "Unesite korisnicko ime ili --exit za prekid rada sistema" << std::endl;
 		std::cin >> korisnickoIme;
 		if (korisnickoIme != "--exit") {
 			std::cout << "Unesite lozinku" << std::endl;
 			std::cin >> lozinka;
 			Radnik r = prijaviNaSistem(korisnickoIme, lozinka);
+
+			if (r.getIme() == "") {
+				std::cout << "Ne postoji vas nalog, ne mozete se prijaviti na sistem!" << std::endl;
+			}
+
 			if (r.getIme() != "") {
 				std::string opcija;
 				if (r.getradnoMjesto() == "Administrator") {
@@ -239,7 +244,7 @@ void pomocnaFunkcijaPriPrijavljivanju() {
 							//operaterPomocnaFunkcija2();
 							o.obradaRezervacije();
 						}
-						else if (opcija == "--logout") {
+						else if (opcija == "-logout") {
 
 						}
 						else if (opcija == "--doc" || opcija == "-d") {

@@ -218,6 +218,7 @@ void Kontrolor::pregledInformacijaOLetovima() const
 	try
 	{
 		std::cout << "PREGLED RASPOREDA LETOVA" << std::endl;
+		std::cout << "ID, Vrijeme polijetanja, Vrijeme slijetanja, Opis, Broj mjesta, Broj trenutno slobodnih mjesta, Status" << std::endl;
 		fstream file;
 		string str;
 		file.open(RASPORED_FILEPATH, std::ios::in);

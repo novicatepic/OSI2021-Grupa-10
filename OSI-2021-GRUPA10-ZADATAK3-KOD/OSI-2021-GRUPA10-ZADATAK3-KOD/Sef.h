@@ -46,6 +46,7 @@ private:
 	void pregledZavrsenihLetovaMjesecno(Datum) const;
 
 
+
 };
 
 // Vraca 7 dana kasnije od pocetnogDatuma, uz sve provjere

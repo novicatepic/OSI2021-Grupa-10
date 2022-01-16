@@ -39,6 +39,11 @@ void Administrator::dodajRadnika() {
 			{
 				std::cout << "Radno mjesto: "; std::cin >> radnoMjesto;
 
+				if (radnoMjesto != "Sef" && radnoMjesto != "Administrator" && radnoMjesto != "Kontrolor" && radnoMjesto != "Operater") {
+					std::cout << "Postoje cetiri radna mjesta: Sef, Administrator, Kontrolor, Operater!" << std::endl;
+					std::cout << "Unesite opet radno mjesto!" << std::endl;
+				}
+
 			} while ((radnoMjesto != "Sef" && radnoMjesto != "Administrator" && radnoMjesto != "Kontrolor"
 				&& radnoMjesto != "Operater"));
 
@@ -197,12 +202,18 @@ void Administrator::pregledRadnika() {
 	std::ifstream ocitavanje;
 	ocitavanje.open("radnici.dat", std::ios::binary | std::ios::in);
 	Radnik* r = new Radnik;
+	std::cout << "Korisnicko ime | Lozinka | Radno mjesto" << std::endl;
 	while (ocitavanje.good()) {
 		r = new Radnik;
 		ocitavanje.read((char*)r, sizeof(Radnik));
 		if (r->getIme() != "") {
-			std::cout << r->getIme() << "  " << r->getradnoMjesto() << "  " << r->getLozinka() << " " <<
-				r->getSuspendovan() << std::endl;
+			std::cout << r->getIme() << "  " << r->getLozinka() << "  " << r->getradnoMjesto();
+			if (r->getSuspendovan() == true) {
+				std::cout << "  " << "*Suspendovan" << std::endl;
+			}
+			else {
+				std::cout << std::endl;
+			}
 		}
 	}
 }

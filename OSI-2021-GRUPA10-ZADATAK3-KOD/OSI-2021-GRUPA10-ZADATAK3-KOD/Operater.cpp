@@ -80,7 +80,7 @@ void Operater::ispisSvihLetova()
     /*namespace fs = std::filesystem;
     std::string path = "\\LETOVI";
     for (const auto& entry : fs::directory_iterator(path)) {
-        std::string string = entry.path();
+        std::string string = entry.path().string();
         string.erase(0, 9);
         string.erase(string.length() - 4);
         std::cout << string << std::endl;

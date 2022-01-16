@@ -30,9 +30,13 @@ int main() {
                  "                      \\    /  ||/   H   \\||  \\    /\n"
                  "                       '--'   OO   O|O   OO   '--'"
      << std::endl;
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+		 std::cout << std::endl;
 		auto pisiUFajl = std::ofstream("radnici.dat", std::ios::binary | std::ios::app | std::ios::out);
 		std::string korisnickoIme, lozinka;
-		std::cout << "Prvo ocitavanje fajla : privremeni admin napravljen!" << std::endl;
+		std::cout << "Prvo pokretanje sistema : privremeni admin napravljen!" << std::endl;
 		std::cout << "Unesite korisnicko ime i lozinku za prvog admina u sistemu: " << std::endl;
 		std::cout << "Unesite korisnicko ime: " ;
 		std::cin >> korisnickoIme;
