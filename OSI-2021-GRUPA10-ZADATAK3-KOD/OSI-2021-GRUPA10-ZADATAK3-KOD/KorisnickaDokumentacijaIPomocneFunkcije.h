@@ -123,12 +123,17 @@ void prikaziPodatkeORadniku(const Radnik& r) {
 	std::cout << std::endl;
 }
 
+void obrisi() {
+	system("CLS");
+}
+
 void pomocnaFunkcijaPriPrijavljivanju() {
 	std::string korisnickoIme;
 	std::string lozinka;
 	do {
 		//std::cout << "Sefova: " << kolikoSefova() << std::endl;
 		//std::cout << "Administratora: " << kolikoAdministratora() << std::endl;
+		obrisi();
 		std::cout << "Ukoliko zelite prestati sa radom, unesite --exit" << std::endl;
 		//std::cout << "Unesite podatke za prijavljivanje: " << std::endl;
 		std::cout << "Unesite korisnicko ime ili --exit za prekid rada sistema" << std::endl;
