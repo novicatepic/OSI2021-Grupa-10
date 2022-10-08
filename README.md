@@ -1,6 +1,6 @@
 # OSI2021-Grupa-10
 
-=============================================================================================================================================================
+===============================================
 
 Clanovi grupe 10:
 Vojvopriv - Даријо Прерад 1103/20     
@@ -9,11 +9,11 @@ zoran-jeftenic - Зоран Јефтенић
 sinisa-radeta - Синиша Радета
 novicatepic - Новица Тепић 1102/20
 
-=============================================================================================================================================================
+===============================================
 
 
 
-Specifikacija projektnog zadatka na srpskom: 
+Specifikacija projektnog zadatka na srpskom jeziku: 
 
 Implementirati jednostavnu aplikaciju za rad aerodroma. Radnici treba da imaju mogućnost prijave na sistem unosom korisničkog imena i lozinke, a podaci o registrovanim korisnicima se čuvaju u binarnoj datoteci u sklopu aplikacije.
 
@@ -27,9 +27,11 @@ Nalog za šefove omogućava pregled izvještaja o završenim letovima na dnevnom
 
 Naloge svih zaposlenih kreiraju/brišu administratori. Nalozi se mogu privremeno suspendovati, pri čemu se ne brišu već se korisnici ne mogu prijaviti na sistem. U sistemu postoje najviše 2 administratora i 3 šefa
 
+U pitanju je konzolna aplikacija za koju su napisani detaljni testovi, zavrsni izvjestaj, uputstvo za instaliranje i SRS dokument.
 
 
-=============================================================================================================================================================
+
+===============================================
 
 
 
@@ -46,3 +48,5 @@ Supervisor can create a new flight, schedule flights, change flight status, chec
 Chiefs are allowed to check reports which contain informations about finished flights. Those reports can be daily, weekly or monthly reports. Besides that, chiefs can see all reservations, but are unable to change them.
 
 Administrators can create or delete accounts of all the users in the system. Accounts can be suspended. Suspension doesn't mean accounts are deleted, it means that users can't log in to the system. There are maximum of two administrators and three chiefs in the system.
+
+This is a console application. Tests for this application are written in detail, there is a final report, as well as a manual for installation and SRS document.
